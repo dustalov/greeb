@@ -26,7 +26,6 @@ def parse(origin)
 
   paragraph_id = 0
   sentence_id = 0
-  token_id = 0
 
   token = ''
 
