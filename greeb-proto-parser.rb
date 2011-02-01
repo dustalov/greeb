@@ -30,7 +30,7 @@ def parse(origin)
 
   token = ''
 
-  while c = origin[token_id]
+  origin.each_char do |c|
     case c
       when PAR then begin
         case token
@@ -76,8 +76,6 @@ def parse(origin)
         end
       end
     end
-
-    token_id += 1
   end
 
   text[paragraph_id][sentence_id] << token
