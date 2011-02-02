@@ -5,20 +5,21 @@ origin = <<-END
  - Сынок, чего это     от тебя   зигами пахнет,
 опять на Манежную площадь ходил?
 
- - Нет мама, я в метро ехал, там  назиговано было!
+ - Нет мама, я в метро ехал, там  назиговано было!!
 
   
 
 Четырнадцать, восемьдесять восемь: 14/88.
-Вот так блять.
+Вот так блять
 END
 origin.chomp!
 
 RU_LEX = /^[А-Яа-я]+$/u
 EN_LEX = /^[A-Za-z]+$/u
 EOL = /^\n+$/u
-SEP = /^[*=_ ]$/u
-PUN = /^(\.|\!|\?|\[|\]|\(|\)|\-|:|;)$/u
+SEP = /^[*=_\/\\ ]$/u
+PUN = /^(\.|\!|\?)$/u
+SPUN = /^(\,|\[|\]|\(|\)|\-|:|;)$/u
 DIG = /^[0-9]+$/u
 DIL = /^[А-Яа-яA-Za-z0-9]+$/u
 EMPTY = ''
@@ -38,10 +39,10 @@ def parse(origin)
 
   paragraph_id = 0
   sentence_id = 0
+  subsentence_id = 0
 
   token = ''
 
-  puts '# Finite-State Automata'
   origin.each_char do |c|
     puts "[#{token.inspect}] ← #{c.inspect}"
     case c
@@ -52,36 +53,50 @@ def parse(origin)
             token = ''
             paragraph_id += 1
             sentence_id = 0
+            subsentence_id = 0
           end
           else
-            text[paragraph_id][sentence_id] << token
+            text[paragraph_id][sentence_id][subsentence_id] << token
             token = c
         end
       end
       when SEP then begin
-       unless token.empty?
-          text[paragraph_id][sentence_id] << token
+        case token
+          when EMPTY
+          else
+            text[paragraph_id][sentence_id][subsentence_id] << token
+            while text[paragraph_id][sentence_id][subsentence_id].last == c
+              text[paragraph_id][sentence_id][subsentence_id].pop
+            end
+            text[paragraph_id][sentence_id][subsentence_id] << c
+            token = ''
         end
-        while text[paragraph_id][sentence_id].last == c
-          text[paragraph_id][sentence_id].pop
-        end
-        text[paragraph_id][sentence_id] << c
-        token = ''
       end
       when PUN then begin
         case token
           when EMPTY
           else
-            text[paragraph_id][sentence_id] << token
-            text[paragraph_id][sentence_id] << c
+            text[paragraph_id][sentence_id][subsentence_id] << token
+            text[paragraph_id][sentence_id][subsentence_id] << c
             token = ''
             sentence_id += 1
+            subsentence_id = 0
+        end
+      end
+      when SPUN then begin
+        case token
+          when EMPTY
+          else
+            text[paragraph_id][sentence_id][subsentence_id] << token
+            text[paragraph_id][sentence_id][subsentence_id] << c
+            token = ''
+            subsentence_id += 1
         end
       end
       when RU_LEX then begin
         case token
           when EOL then begin
-            text[paragraph_id][sentence_id] << ' '
+            text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
           else token << c
@@ -90,7 +105,7 @@ def parse(origin)
       when EN_LEX then begin
         case token
           when EOL then begin
-            text[paragraph_id][sentence_id] << ' '
+            text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
           else token << c
@@ -99,7 +114,7 @@ def parse(origin)
       when DIG then begin
         case token
           when EOL then begin
-            text[paragraph_id][sentence_id] << ' '
+            text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
           else token << c
@@ -108,7 +123,7 @@ def parse(origin)
       when DIL then begin
         case token
           when EOL then begin
-            text[paragraph_id][sentence_id] << token
+            text[paragraph_id][sentence_id][subsentence_id] << token
             token = c
           end
           else token << c
@@ -117,29 +132,29 @@ def parse(origin)
     end
   end
 
-#  text[paragraph_id][sentence_id] << token
-
+  text[paragraph_id][sentence_id][subsentence_id] << token
+  text.delete(nil)
   text
 end
 
 text = parse(origin)
 
-puts '# Parsing Result'
-p text
+#require 'pp'
+#puts '# Parsing Result'
+#pp text
 
-puts '# Text Interpretation'
-pure = text.map do |paragraph|
-  paragraph.map do |sentence|
-    sentence.join
-  end.join(' ')
-end.join("\n\n")
-puts pure
+#puts '# Text Interpretation'
+#pure = text.map do |paragraph|
+#  paragraph.map do |sentence|
+#    sentence.join
+#  end.join(' ')
+#end.join("\n\n")
+#puts pure
 
 require 'rubygems'
 require 'graphviz'
 
 g = GraphViz.new('graphematics', 'type' => 'graph')
-#g[:rankdir] = 'LR'
 
 g.node[:color]    = '#ddaa66'
 g.node[:style]    = 'filled'
@@ -176,23 +191,42 @@ end
 text.each_with_index do |paragraph, i|
   pid = "p#{i}"
   g.add_node(pid).tap do |node|
-    node.label = "Абзац №#{i + 1}"
+    node.label = "Абзац\n№#{i + 1}"
     node.shape = 'ellipse'
   end
   g.add_edge(bid, pid)
   paragraph.each_with_index do |sentence, j|
     sid = "p#{i}s#{j}"
     g.add_node(sid).tap do |node|
-      node.label = "Предложение №#{j + 1}"
+      node.label = "Предложение\n№#{j + 1}"
       node.shape = 'ellipse'
     end
     g.add_edge(pid, sid)
-    sentence.each_with_index do |token, k|
-      next if ' ' == token
-      tid = "p#{i}s#{j}t#{k}"
-      g.add_node(tid).label = token
-      g.add_edge(sid, tid)
-      g.add_edge(tid, eid)
+
+    ssids = {}
+    sentence.each_with_index do |subsentence, k|
+      ssid = "p#{i}s#{j}ss#{k}"
+      ssids[k] = ssid
+      g.add_node(ssid).tap do |node|
+        node.label = "Подпредложение\n№#{k + 1}"
+        node.shape = 'ellipse'
+      end
+      g.add_edge(sid, ssid)
+      subsentence.each_with_index do |token, l|
+        next if ' ' == token
+        tid = "#{ssid}t#{l}"
+        g.add_node(tid).label = token
+        g.add_edge(ssid, tid)
+        g.add_edge(tid, eid)
+      end
+    end
+    ssids.to_a.each_cons(2) do |(k1, ssid1), (k2, ssid2)|
+      tid = "#{ssid1}t#{sentence[k1].size - 1}"
+      token = sentence[k1].last
+      g.add_edge(tid, ssid2).tap do |edge|
+        edge.weight = 0.5
+        edge.style = 'dashed'
+      end
     end
   end
 end
