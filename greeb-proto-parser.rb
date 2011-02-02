@@ -137,6 +137,21 @@ def parse(origin)
   text
 end
 
+def identify(token)
+  case token
+    when RU_LEX then 'RU_LEX'
+    when EN_LEX then 'EN_LEX'
+    when EOL then 'EOL'
+    when SEP then 'SEP'
+    when PUN then 'PUN'
+    when SPUN then 'SPUN'
+    when DIG then 'DIG'
+    when DIL then 'DIL'
+  else
+    '?!'
+  end
+end
+
 text = parse(origin)
 
 #require 'pp'
@@ -216,7 +231,7 @@ text.each_with_index do |paragraph, i|
         next if ' ' == token
         tid = "#{ssid}t#{l}"
         g.add_node(tid).label = token
-        g.add_edge(ssid, tid)
+        g.add_edge(ssid, tid).label = identify(token)
         g.add_edge(tid, eid)
       end
     end
