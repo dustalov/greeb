@@ -170,17 +170,6 @@ end
 
 text = parse(origin)
 
-#puts '# Parsing Result'
-#pp text
-
-#puts '# Text Interpretation'
-#pure = text.map do |paragraph|
-#  paragraph.map do |sentence|
-#    sentence.join
-#  end.join(' ')
-#end.join("\n\n")
-#puts pure
-
 g = GraphViz.new('graphematics', 'type' => 'graph')
 
 g.node[:color]    = '#ddaa66'
