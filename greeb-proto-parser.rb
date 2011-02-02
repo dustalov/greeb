@@ -23,8 +23,18 @@ DIG = /^[0-9]+$/u
 DIL = /^[А-Яа-яA-Za-z0-9]+$/u
 EMPTY = ''
 
+class MetaArray < Array
+  def [] id
+    super(id) or begin
+      self.class.new.tap do |element|
+        self[id] = element
+      end
+    end
+  end
+end
+
 def parse(origin)
-  text = [ [ [ ] ] ]
+  text = MetaArray.new
 
   paragraph_id = 0
   sentence_id = 0
@@ -40,9 +50,7 @@ def parse(origin)
           when EMPTY then token << c
           when EOL then begin
             token = ''
-            text << [ [ ] ]
-            paragraph_id = text.size - 1
-#            paragraph_id += 1
+            paragraph_id += 1
             sentence_id = 0
           end
           else
@@ -51,7 +59,7 @@ def parse(origin)
         end
       end
       when SEP then begin
-        unless token.empty?
+       unless token.empty?
           text[paragraph_id][sentence_id] << token
         end
         while text[paragraph_id][sentence_id].last == c
@@ -67,9 +75,7 @@ def parse(origin)
             text[paragraph_id][sentence_id] << token
             text[paragraph_id][sentence_id] << c
             token = ''
-            text[paragraph_id] << []
-            sentence_id = text[paragraph_id].size - 1
-#            sentence_id += 1
+            sentence_id += 1
         end
       end
       when RU_LEX then begin
@@ -111,7 +117,7 @@ def parse(origin)
     end
   end
 
-  text[paragraph_id][sentence_id] << token
+#  text[paragraph_id][sentence_id] << token
 
   text
 end
@@ -128,3 +134,67 @@ pure = text.map do |paragraph|
   end.join(' ')
 end.join("\n\n")
 puts pure
+
+require 'rubygems'
+require 'graphviz'
+
+g = GraphViz.new('graphematics', 'type' => 'graph')
+#g[:rankdir] = 'LR'
+
+g.node[:color]    = '#ddaa66'
+g.node[:style]    = 'filled'
+g.node[:shape]    = 'box'
+g.node[:penwidth] = '1'
+g.node[:fontname] = 'PT Sans'
+g.node[:fontsize] = '8'
+g.node[:fillcolor]= '#ffeecc'
+g.node[:fontcolor]= '#775500'
+g.node[:margin]   = '0.0'
+
+g.edge[:color]    = '#999999'
+g.edge[:weight]   = '1'
+g.edge[:fontsize] = '6'
+g.edge[:fontcolor]= '#444444'
+g.edge[:fontname] = 'PT Serif'
+g.edge[:dir]      = 'forward'
+g.edge[:arrowsize]= '0.5'
+
+bid = 'begin'
+g.add_node(bid).tap do |node|
+  node.label = "Начало\nтекста"
+  node.shape = 'ellipse'
+  node.style = ''
+end
+
+eid = 'end'
+g.add_node(eid).tap do |node|
+  node.label = "Конец\nтекста"
+  node.shape = 'ellipse'
+  node.style = ''
+end
+
+text.each_with_index do |paragraph, i|
+  pid = "p#{i}"
+  g.add_node(pid).tap do |node|
+    node.label = "Абзац №#{i + 1}"
+    node.shape = 'ellipse'
+  end
+  g.add_edge(bid, pid)
+  paragraph.each_with_index do |sentence, j|
+    sid = "p#{i}s#{j}"
+    g.add_node(sid).tap do |node|
+      node.label = "Предложение №#{j + 1}"
+      node.shape = 'ellipse'
+    end
+    g.add_edge(pid, sid)
+    sentence.each_with_index do |token, k|
+      next if ' ' == token
+      tid = "p#{i}s#{j}t#{k}"
+      g.add_node(tid).label = token
+      g.add_edge(sid, tid)
+      g.add_edge(tid, eid)
+    end
+  end
+end
+
+g.output(:output => 'png', :file => 'graph.png')
