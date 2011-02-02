@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
+require 'pp'
+require 'rubygems'
+require 'graphviz'
+
 origin = <<-END
  - Сынок, чего это     от тебя   зигами пахнет,
 опять на Манежную площадь ходил?
@@ -33,6 +37,14 @@ class MetaArray < Array
     end
   end
 end
+
+module Enumerable
+  def collect_with_index(i = -1)
+    collect { |e| yield(e, i += 1) }
+  end
+  alias map_with_index collect_with_index
+end
+
 
 def parse(origin)
   text = MetaArray.new
@@ -158,7 +170,6 @@ end
 
 text = parse(origin)
 
-#require 'pp'
 #puts '# Parsing Result'
 #pp text
 
@@ -169,9 +180,6 @@ text = parse(origin)
 #  end.join(' ')
 #end.join("\n\n")
 #puts pure
-
-require 'rubygems'
-require 'graphviz'
 
 g = GraphViz.new('graphematics', 'type' => 'graph')
 
@@ -187,9 +195,9 @@ g.node[:margin]   = '0.0'
 
 g.edge[:color]    = '#999999'
 g.edge[:weight]   = '1'
-g.edge[:fontsize] = '6'
+g.edge[:fontname] = 'PT Sans'
 g.edge[:fontcolor]= '#444444'
-g.edge[:fontname] = 'PT Serif'
+g.edge[:fontsize] = '6'
 g.edge[:dir]      = 'forward'
 g.edge[:arrowsize]= '0.5'
 
@@ -207,42 +215,65 @@ g.add_node(eid).tap do |node|
   node.style = ''
 end
 
-text.each_with_index do |paragraph, i|
+tree = text.map_with_index do |paragraph, i|
   pid = "p#{i}"
+  sentences = paragraph.map_with_index do |sentence, j|
+    sid = "#{pid}s#{j}"
+    subsentences = sentence.map_with_index do |subsentence, k|
+      ssid = "#{sid}ss#{k}"
+      tokens = subsentence.map_with_index do |token, l|
+        next if ' ' == token
+        [ "#{ssid}t#{l}", token, l ]
+      end
+      tokens.delete(nil)
+      [ ssid, tokens, k ]
+    end
+    [ sid, subsentences, j ]
+  end
+  [ pid, sentences, i ]
+end
+
+tree.each do |pid, paragraph, i|
   g.add_node(pid).tap do |node|
     node.label = "Абзац\n№#{i + 1}"
     node.shape = 'ellipse'
   end
   g.add_edge(bid, pid)
-  paragraph.each_with_index do |sentence, j|
-    sid = "p#{i}s#{j}"
+
+  paragraph.each do |sid, sentence, j|
     g.add_node(sid).tap do |node|
       node.label = "Предложение\n№#{j + 1}"
       node.shape = 'ellipse'
     end
     g.add_edge(pid, sid)
 
-    ssids = {}
-    sentence.each_with_index do |subsentence, k|
-      ssid = "p#{i}s#{j}ss#{k}"
-      ssids[k] = ssid
+    sentence.each do |ssid, subsentence, k|
       g.add_node(ssid).tap do |node|
         node.label = "Подпредложение\n№#{k + 1}"
         node.shape = 'ellipse'
       end
       g.add_edge(sid, ssid)
-      subsentence.each_with_index do |token, l|
-        next if ' ' == token
-        tid = "#{ssid}t#{l}"
+
+      subsentence.each do |tid, token, l|
         g.add_node(tid).label = token
         g.add_edge(ssid, tid).label = identify(token)
         g.add_edge(tid, eid)
       end
+
+      subsentence.each_cons(2) do |(tid1, token1, l1),
+                                   (tid2, token2, l2)|
+        g.add_edge(tid1, tid2).tap do |edge|
+          edge.weight = 0.25
+          edge.style = 'dashed'
+        end
+      end
     end
-    ssids.to_a.each_cons(2) do |(k1, ssid1), (k2, ssid2)|
-      tid = "#{ssid1}t#{sentence[k1].size - 1}"
-      token = sentence[k1].last
-      g.add_edge(tid, ssid2).tap do |edge|
+
+    sentence.each_cons(2) do |(ssid1, subsentence1, k1),
+                              (ssid2, subsentence2, k2)|
+      tid1, token1, l1 = subsentence1.last
+      tid2, token2, l2 = subsentence2.first
+      g.add_edge(tid1, tid2).tap do |edge|
         edge.weight = 0.5
         edge.style = 'dashed'
       end
