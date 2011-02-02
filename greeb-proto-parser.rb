@@ -55,42 +55,42 @@ def parse(origin)
             sentence_id = 0
             subsentence_id = 0
           end
-          else
-            text[paragraph_id][sentence_id][subsentence_id] << token
-            token = c
+        else
+          text[paragraph_id][sentence_id][subsentence_id] << token
+          token = c
         end
       end
       when SEP then begin
         case token
           when EMPTY
-          else
-            text[paragraph_id][sentence_id][subsentence_id] << token
-            while text[paragraph_id][sentence_id][subsentence_id].last == c
-              text[paragraph_id][sentence_id][subsentence_id].pop
-            end
-            text[paragraph_id][sentence_id][subsentence_id] << c
-            token = ''
+        else
+          text[paragraph_id][sentence_id][subsentence_id] << token
+          while text[paragraph_id][sentence_id][subsentence_id].last == c
+            text[paragraph_id][sentence_id][subsentence_id].pop
+          end
+          text[paragraph_id][sentence_id][subsentence_id] << c
+          token = ''
         end
       end
       when PUN then begin
         case token
           when EMPTY
-          else
-            text[paragraph_id][sentence_id][subsentence_id] << token
-            text[paragraph_id][sentence_id][subsentence_id] << c
-            token = ''
-            sentence_id += 1
-            subsentence_id = 0
+        else
+          text[paragraph_id][sentence_id][subsentence_id] << token
+          text[paragraph_id][sentence_id][subsentence_id] << c
+          token = ''
+          sentence_id += 1
+          subsentence_id = 0
         end
       end
       when SPUN then begin
         case token
           when EMPTY
-          else
-            text[paragraph_id][sentence_id][subsentence_id] << token
-            text[paragraph_id][sentence_id][subsentence_id] << c
-            token = ''
-            subsentence_id += 1
+        else
+          text[paragraph_id][sentence_id][subsentence_id] << token
+          text[paragraph_id][sentence_id][subsentence_id] << c
+          token = ''
+          subsentence_id += 1
         end
       end
       when RU_LEX then begin
@@ -99,7 +99,8 @@ def parse(origin)
             text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
-          else token << c
+        else
+          token << c
         end
       end
       when EN_LEX then begin
@@ -108,7 +109,8 @@ def parse(origin)
             text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
-          else token << c
+        else
+          token << c
         end
       end
       when DIG then begin
@@ -117,7 +119,8 @@ def parse(origin)
             text[paragraph_id][sentence_id][subsentence_id] << ' '
             token = c
           end
-          else token << c
+        else
+          token << c
         end
       end
       when DIL then begin
@@ -126,7 +129,8 @@ def parse(origin)
             text[paragraph_id][sentence_id][subsentence_id] << token
             token = c
           end
-          else token << c
+        else
+          token << c
         end
       end
     end
