@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require 'pp'
 require 'rubygems'
 require 'graphviz'
+
+$:.unshift('./lib')
+require 'greeb'
 
 origin = <<-END
  - Сынок, чего это     от тебя   зигами пахнет,
@@ -18,157 +20,23 @@ origin = <<-END
 END
 origin.chomp!
 
-RU_LEX = /^[А-Яа-я]+$/u
-EN_LEX = /^[A-Za-z]+$/u
-EOL = /^\n+$/u
-SEP = /^[*=_\/\\ ]$/u
-PUN = /^(\.|\!|\?)$/u
-SPUN = /^(\,|\[|\]|\(|\)|\-|:|;)$/u
-DIG = /^[0-9]+$/u
-DIL = /^[А-Яа-яA-Za-z0-9]+$/u
-EMPTY = ''
-
-class MetaArray < Array
-  def [] id
-    super(id) or begin
-      self.class.new.tap do |element|
-        self[id] = element
-      end
-    end
-  end
-end
-
-module Enumerable
-  def collect_with_index(i = -1)
-    collect { |e| yield(e, i += 1) }
-  end
-  alias map_with_index collect_with_index
-end
-
-
-def parse(origin)
-  text = MetaArray.new
-
-  paragraph_id = 0
-  sentence_id = 0
-  subsentence_id = 0
-
-  token = ''
-
-  origin.each_char do |c|
-    puts "[#{token.inspect}] ← #{c.inspect}"
-    case c
-      when EOL then begin
-        case token
-          when EMPTY then token << c
-          when EOL then begin
-            token = ''
-            paragraph_id += 1
-            sentence_id = 0
-            subsentence_id = 0
-          end
-        else
-          text[paragraph_id][sentence_id][subsentence_id] << token
-          token = c
-        end
-      end
-      when SEP then begin
-        case token
-          when EMPTY
-        else
-          text[paragraph_id][sentence_id][subsentence_id] << token
-          while text[paragraph_id][sentence_id][subsentence_id].last == c
-            text[paragraph_id][sentence_id][subsentence_id].pop
-          end
-          text[paragraph_id][sentence_id][subsentence_id] << c
-          token = ''
-        end
-      end
-      when PUN then begin
-        case token
-          when EMPTY
-        else
-          text[paragraph_id][sentence_id][subsentence_id] << token
-          text[paragraph_id][sentence_id][subsentence_id] << c
-          token = ''
-          sentence_id += 1
-          subsentence_id = 0
-        end
-      end
-      when SPUN then begin
-        case token
-          when EMPTY
-        else
-          text[paragraph_id][sentence_id][subsentence_id] << token
-          text[paragraph_id][sentence_id][subsentence_id] << c
-          token = ''
-          subsentence_id += 1
-        end
-      end
-      when RU_LEX then begin
-        case token
-          when EOL then begin
-            text[paragraph_id][sentence_id][subsentence_id] << ' '
-            token = c
-          end
-        else
-          token << c
-        end
-      end
-      when EN_LEX then begin
-        case token
-          when EOL then begin
-            text[paragraph_id][sentence_id][subsentence_id] << ' '
-            token = c
-          end
-        else
-          token << c
-        end
-      end
-      when DIG then begin
-        case token
-          when EOL then begin
-            text[paragraph_id][sentence_id][subsentence_id] << ' '
-            token = c
-          end
-        else
-          token << c
-        end
-      end
-      when DIL then begin
-        case token
-          when EOL then begin
-            text[paragraph_id][sentence_id][subsentence_id] << token
-            token = c
-          end
-        else
-          token << c
-        end
-      end
-    end
-  end
-
-  text[paragraph_id][sentence_id][subsentence_id] << token
-  text.delete(nil)
-  text
-end
-
 def identify(token)
   case token
-    when RU_LEX then 'RU_LEX'
-    when EN_LEX then 'EN_LEX'
-    when EOL then 'EOL'
-    when SEP then 'SEP'
-    when PUN then 'PUN'
-    when SPUN then 'SPUN'
-    when DIG then 'DIG'
-    when DIL then 'DIL'
+    when Greeb::RU_LEX then 'RU_LEX'
+    when Greeb::EN_LEX then 'EN_LEX'
+    when Greeb::EOL then 'EOL'
+    when Greeb::SEP then 'SEP'
+    when Greeb::PUN then 'PUN'
+    when Greeb::SPUN then 'SPUN'
+    when Greeb::DIG then 'DIG'
+    when Greeb::DIL then 'DIL'
   else
     '?!'
   end
 end
 
-text = parse(origin)
+greeb = Greeb::Parser.new(origin)
+text = greeb.tree
 
 g = GraphViz.new('graphematics', 'type' => 'graph')
 
