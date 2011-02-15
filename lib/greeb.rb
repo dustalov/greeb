@@ -4,7 +4,7 @@ require 'meta_array'
 require 'enumerable'
 
 module Greeb
-  RU_LEX = /^[А-Яа-я]+$/u
+  RU_LEX = /^[А-Яа-яЕё]+$/u
   EN_LEX = /^[A-Za-z]+$/u
   EOL = /^\n+$/u
   SEP = /^[*=_\/\\ ]$/u
