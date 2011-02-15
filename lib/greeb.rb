@@ -4,14 +4,14 @@ require 'meta_array'
 require 'enumerable'
 
 module Greeb
-  RU_LEX = /^[А-Яа-яЕё]+$/u
+  RU_LEX = /^[А-Яа-яЁё]+$/u
   EN_LEX = /^[A-Za-z]+$/u
   EOL = /^\n+$/u
   SEP = /^[*=_\/\\ ]$/u
   PUN = /^(\.|\!|\?)$/u
   SPUN = /^(\,|\[|\]|\(|\)|\-|:|;)$/u
   DIG = /^[0-9]+$/u
-  DIL = /^[А-Яа-яA-Za-z0-9]+$/u
+  DIL = /^[А-Яа-яA-Za-z0-9Ёё]+$/u
   EMPTY = ''
 
   class Parser
