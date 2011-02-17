@@ -45,7 +45,6 @@ module Greeb
         token = ''
 
         origin.each_char do |c|
-          puts "[#{token.inspect}] ← #{c.inspect}"
           case c
             when EOL then begin
               case token
