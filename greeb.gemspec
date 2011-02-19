@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 $:.push File.expand_path('../lib', __FILE__)
-require 'greeb/version'
+require 'greeb'
 
 Gem::Specification.new do |s|
   s.name        = 'greeb'
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = [ 'dmitry@eveel.ru' ]
   s.homepage    = 'https://github.com/eveel/greeb'
   s.summary     = 'Greeb is a Graphematical Analyzer.'
-  s.description = 'Greeb is a Graphematical Analyzer, ' \
+  s.description = 'Greeb is awesome Graphematical Analyzer, ' \
                   'written in Ruby.'
 
   s.rubyforge_project = 'greeb'

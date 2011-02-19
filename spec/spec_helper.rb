@@ -8,8 +8,7 @@ end
 
 RSpec::Matchers.define :be_parsed_as do |expected|
   match do |actual|
-    tree = Greeb::Parser.new(actual).tree
-    p tree
+    tree = Greeb::Parser.new(actual).parse
     tree == expected
   end
 end

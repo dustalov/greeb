@@ -42,4 +42,22 @@ describe Greeb::Parser do
       ]
     ])
   end
+
+  it 'should parse sentences with floating point values' do
+    'буба не считает Пи равной 3.14'.should be_parsed_as([
+      [
+        [ [ 'буба', ' ', 'не', ' ', 'считает', ' ',
+            'Пи', ' ', 'равной', ' ', '3.14' ] ]
+      ]
+    ])
+  end
+
+  it 'should parse sentences with floating "dot" values' do
+    'буба не считает Пи равной 3,14'.should be_parsed_as([
+      [
+        [ [ 'буба', ' ', 'не', ' ', 'считает', ' ',
+            'Пи', ' ', 'равной', ' ', '3,14' ] ]
+      ]
+    ])
+  end
 end
