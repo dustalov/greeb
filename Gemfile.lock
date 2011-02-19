@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    greeb (0.0.1)
+    greeb (0.0.2)
       rspec (~> 2.4.0)
 
 GEM
