@@ -19,7 +19,7 @@ class Greeb::Parser
   #
   END_OF_LINE = /^\n+$/u
 
-  # In-subsentence seprator (i.e.: "*" or "\").
+  # In-subsentence seprator (i.e.: "*" or "=").
   #
   SEPARATOR = /^[*=_\/\\ ]$/u
 
