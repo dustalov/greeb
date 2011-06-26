@@ -4,7 +4,7 @@ Greeb
 Greeb is awesome Graphematical Analyzer (text segmentator),
 which parser is based on Finite State Machine.
 You can see state diagram
-[right here](https://github.com/eveel/greeb/raw/master/greeb-parser-finite-state-machine.png).
+[right here](https://github.com/eveel/greeb/raw/master/greeb-diagram.png).
 
 Greeb can be used in basic text segmentation tasks:
 
