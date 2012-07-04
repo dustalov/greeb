@@ -1,14 +1,20 @@
 # encoding: utf-8
 
-require File.expand_path('../../lib/greeb', __FILE__)
+require 'rubygems'
 
-RSpec.configure do |c|
-  c.mock_with :rspec
+$:.unshift File.expand_path('../../lib', __FILE__)
+
+if RUBY_VERSION == '1.8'
+  gem 'minitest'
 end
 
-RSpec::Matchers.define :be_parsed_as do |expected|
-  match do |actual|
-    tree = Greeb::Parser.new(actual).parse
-    tree == expected
+require 'minitest/autorun'
+
+unless 'true' == ENV['TRAVIS']
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter '/spec/'
   end
 end
+
+require 'greeb'
