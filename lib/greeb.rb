@@ -1,4 +1,4 @@
 # encoding: utf-8
 
 require 'greeb/version'
-require 'greeb/parser'
+require 'greeb/tokenizer'
