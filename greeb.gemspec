@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-$:.push File.expand_path('../lib', __FILE__)
-require 'greeb'
+require File.expand_path('../lib/greeb/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'greeb'
@@ -10,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ['Dmitry A. Ustalov']
   s.email       = ['dmitry@eveel.ru']
   s.homepage    = 'https://github.com/eveel/greeb'
-  s.summary     = 'Greeb is a Graphematical Analyzer.'
-  s.description = 'Greeb is awesome Graphematical Analyzer, ' \
+  s.summary     = 'Greeb is a simple regexp-based tokenizer.'
+  s.description = 'Greeb is a simple yet awesome regexp-based tokenizer, ' \
                   'written in Ruby.'
 
   s.rubyforge_project = 'greeb'
