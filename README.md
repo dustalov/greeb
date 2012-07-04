@@ -26,7 +26,6 @@ Greeb can help you to solve simple text processing problems:
 
 ```ruby
 pp Greeb::Tokenizer.new('Hello!').tokens
-
 =begin
 #<Set: {#<struct Greeb::Tokenizer::Token from=0, to=5, kind=:letter>,
  #<struct Greeb::Tokenizer::Token from=5, to=6, kind=:punct>}>
