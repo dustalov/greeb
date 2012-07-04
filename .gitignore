@@ -27,6 +27,7 @@ nbproject
 
 ## BUNDLER
 .bundle
+Gemfile.lock
 
 ## PROJECT::GENERAL
 coverage
