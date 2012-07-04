@@ -36,23 +36,18 @@ class Greeb::Tokenizer
 
   Token = Struct.new(:from, :to, :kind)
 
-  attr_reader :text, :scanner
+  attr_reader :text, :tokens, :scanner
   protected :scanner
 
   def initialize(text)
     @text = text
-    tokenize!
-  end
-
-  def tokens
-    @tokens || tokenize && @tokens
-  rescue
     @tokens = Set.new
+
+    tokenize!
   end
 
   protected
     def tokenize!
-      @tokens = Set.new
       @scanner = StringScanner.new(text)
       while !scanner.eos?
         parse! LETTERS, :letter or
@@ -61,10 +56,8 @@ class Greeb::Tokenizer
         split_parse! SENTENCE_PUNCTUATIONS, :spunct or
         split_parse! PUNCTUATIONS, :punct or
         split_parse! SEPARATORS, :separator or
-        split_parse! BREAKS, :break or begin
-          p @tokens
-          raise 'fuck you'
-        end
+        split_parse! BREAKS, :break or
+        raise @tokens.inspect
       end
     ensure
       scanner.terminate
