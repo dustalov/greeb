@@ -39,11 +39,11 @@ module Greeb
         Tokenizer.new('Hello, I am 18').tokens.must_equal(
           Set.new([Tokenizer::Token.new(0,  5,  :letter),
                    Tokenizer::Token.new(5,  6,  :spunct),
-                   Tokenizer::Token.new(6,  7,  :separator),
+                   Tokenizer::Token.new(6,  7,  :separ),
                    Tokenizer::Token.new(7,  8,  :letter),
-                   Tokenizer::Token.new(8,  9,  :separator),
+                   Tokenizer::Token.new(8,  9,  :separ),
                    Tokenizer::Token.new(9,  11, :letter),
-                   Tokenizer::Token.new(11, 12, :separator),
+                   Tokenizer::Token.new(11, 12, :separ),
                    Tokenizer::Token.new(12, 14, :integer)])
         )
       end
@@ -62,7 +62,7 @@ module Greeb
       it 'can handle separated integers' do
         Tokenizer.new('228/359').tokens.must_equal(
           Set.new([Tokenizer::Token.new(0, 3, :integer),
-                   Tokenizer::Token.new(3, 4, :separator),
+                   Tokenizer::Token.new(3, 4, :separ),
                    Tokenizer::Token.new(4, 7, :integer)])
         )
       end
