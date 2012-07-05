@@ -45,7 +45,7 @@ class Greeb::Tokenizer
   #
   Token = Struct.new(:from, :to, :kind)
 
-  attr_reader :text, :tokens, :scanner
+  attr_reader :text, :scanner
   protected :scanner
 
   # Create a new instance of {Tokenizer}.
@@ -54,9 +54,15 @@ class Greeb::Tokenizer
   #
   def initialize(text)
     @text = text
-    @tokens = Set.new
+  end
 
-    tokenize!
+  # Tokens memoization method.
+  #
+  # @return [Set<Token>] a set of tokens.
+  #
+  def tokens
+    tokenize! unless @tokens
+    @tokens
   end
 
   protected
@@ -67,6 +73,7 @@ class Greeb::Tokenizer
     #
     def tokenize!
       @scanner = StringScanner.new(text)
+      @tokens = Set.new
       while !scanner.eos?
         parse! LETTERS, :letter or
         parse! FLOATS, :float or
