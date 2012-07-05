@@ -39,8 +39,9 @@ class Greeb::Tokenizer
   # and `kind` is a type of the token.
   #
   # There are several token types: `:letter`, `:float`, `:integer`,
-  # `:separator`, `:punct` (for punctuation), `:spunct` (for in-sentence
-  # punctuation), and `:break`.
+  # `:separ` for separators, `:punct` for punctuation characters,
+  # `:spunct` for in-sentence punctuation characters, and
+  # `:break` for line endings.
   #
   Token = Struct.new(:from, :to, :kind)
 
@@ -72,7 +73,7 @@ class Greeb::Tokenizer
         parse! INTEGERS, :integer or
         split_parse! SENTENCE_PUNCTUATIONS, :spunct or
         split_parse! PUNCTUATIONS, :punct or
-        split_parse! SEPARATORS, :separator or
+        split_parse! SEPARATORS, :separ or
         split_parse! BREAKS, :break or
         raise @tokens.inspect
       end
