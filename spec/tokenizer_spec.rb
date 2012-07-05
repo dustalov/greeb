@@ -11,7 +11,27 @@ module Greeb
         subject.text.must_equal 'vodka'
       end
 
-      it 'has no tokens' do
+      it 'should has the @text ivar' do
+        subject.instance_variable_get(:@text).must_equal 'vodka'
+      end
+
+      it 'should not has @tokens ivar' do
+        subject.instance_variable_get(:@tokens).must_be_nil
+      end
+    end
+
+    describe 'after tokenization' do
+      subject { Tokenizer.new('vodka').tap(&:tokens) }
+
+      it 'should has the @tokens ivar' do
+        subject.instance_variable_get(:@tokens).wont_be_nil
+      end
+
+      it 'should has the @scanner ivar' do
+        subject.instance_variable_get(:@scanner).wont_be_nil
+      end
+
+      it 'should has the tokens set' do
         subject.tokens.must_be_kind_of Set
       end
     end
