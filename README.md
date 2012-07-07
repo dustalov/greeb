@@ -74,6 +74,18 @@ pp Greeb::Tokenizer.new(text).tokens
 =end
 ```
 
+Also it can be used to solve the text segmentation problems
+such as sentence detection tasks:
+
+```ruby
+text = 'Hello! How are you?'
+pp Greeb::Segmentator.new(Greeb::Tokenizer.new(text))
+=begin
+#<SortedSet: {#<struct Greeb::Entity from=0, to=6, type=:sentence>,
+ #<struct Greeb::Entity from=7, to=19, type=:sentence>}>
+=end
+```
+
 ## Tokens
 
 Greeb operates with entities, tuples of `<from, to, type>`, where
