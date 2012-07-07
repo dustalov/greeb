@@ -34,21 +34,10 @@ class Greeb::Tokenizer
   #
   BREAKS = /\n+/u
 
-  # Greeb operates with tokens, tuples of `<from, to, kind>`, where
-  # `from` is a beginning of the token, `to` is an ending of the token,
-  # and `kind` is a type of the token.
-  #
-  # There are several token types: `:letter`, `:float`, `:integer`,
-  # `:separ` for separators, `:punct` for punctuation characters,
-  # `:spunct` for in-sentence punctuation characters, and
-  # `:break` for line endings.
-  #
-  Token = Struct.new(:from, :to, :kind)
-
   attr_reader :text, :scanner
   protected :scanner
 
-  # Create a new instance of {Tokenizer}.
+  # Create a new instance of {Greeb::Tokenizer}.
   #
   # @param text [String] text to be tokenized.
   #
@@ -58,7 +47,7 @@ class Greeb::Tokenizer
 
   # Tokens memoization method.
   #
-  # @return [Set<Token>] a set of tokens.
+  # @return [Set<Greeb::Entity>] a set of tokens.
   #
   def tokens
     tokenize! unless @tokens
@@ -73,7 +62,7 @@ class Greeb::Tokenizer
     #
     def tokenize!
       @scanner = StringScanner.new(text)
-      @tokens = Set.new
+      @tokens = SortedSet.new
       while !scanner.eos?
         parse! LETTERS, :letter or
         parse! FLOATS, :float or
@@ -89,34 +78,34 @@ class Greeb::Tokenizer
     end
 
     # Try to parse one small piece of text that is covered by pattern
-    # of necessary kind.
+    # of necessary type.
     #
     # @param pattern [Regexp] a regular expression to extract the token.
-    # @param kind [Symbol] a symbol that represents the necessary token
+    # @param type [Symbol] a symbol that represents the necessary token
     # type.
     #
-    # @return [Set<Token>] the modified set of extracted tokens.
+    # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
-    def parse! pattern, kind
+    def parse! pattern, type
       return false unless token = scanner.scan(pattern)
-      @tokens << Token.new(scanner.pos - token.length, scanner.pos, kind)
+      @tokens << Greeb::Entity.new(scanner.pos - token.length, scanner.pos, type)
     end
 
     # Try to parse one small piece of text that is covered by pattern
-    # of necessary kind. This method performs grouping of the same
+    # of necessary type. This method performs grouping of the same
     # characters.
     #
     # @param pattern [Regexp] a regular expression to extract the token.
-    # @param kind [Symbol] a symbol that represents the necessary token
+    # @param type [Symbol] a symbol that represents the necessary token
     # type.
     #
-    # @return [Set<Token>] the modified set of extracted tokens.
+    # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
-    def split_parse! pattern, kind
+    def split_parse! pattern, type
       return false unless token = scanner.scan(pattern)
       position = scanner.pos - token.length
       token.scan(/((.|\n)\2*)/).map(&:first).inject(position) do |before, s|
-        @tokens << Token.new(before, before + s.length, kind)
+        @tokens << Greeb::Entity.new(before, before + s.length, type)
         before + s.length
       end
     end

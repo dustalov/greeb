@@ -27,8 +27,8 @@ Greeb can help you to solve simple text processing problems:
 ```ruby
 pp Greeb::Tokenizer.new('Hello!').tokens
 =begin
-#<Set: {#<struct Greeb::Tokenizer::Token from=0, to=5, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=5, to=6, kind=:punct>}>
+#<SortedSet: {#<struct Greeb::Entity from=0, to=5, type=:letter>,
+ #<struct Greeb::Entity from=5, to=6, type=:punct>}>
 =end
 ```
 
@@ -43,44 +43,44 @@ EOF
 
 pp Greeb::Tokenizer.new(text).tokens
 =begin
-#<Set: {#<struct Greeb::Tokenizer::Token from=0, to=5, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=5, to=6, kind=:punct>,
- #<struct Greeb::Tokenizer::Token from=6, to=7, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=7, to=8, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=8, to=9, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=9, to=11, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=11, to=12, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=12, to=14, kind=:integer>,
- #<struct Greeb::Tokenizer::Token from=14, to=15, kind=:punct>,
- #<struct Greeb::Tokenizer::Token from=15, to=16, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=16, to=18, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=18, to=19, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=19, to=28, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=28, to=29, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=29, to=35, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=35, to=36, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=36, to=38, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=38, to=39, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=39, to=44, kind=:float>,
- #<struct Greeb::Tokenizer::Token from=44, to=47, kind=:punct>,
- #<struct Greeb::Tokenizer::Token from=47, to=49, kind=:break>,
- #<struct Greeb::Tokenizer::Token from=49, to=53, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=53, to=54, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=54, to=59, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=59, to=60, kind=:separ>,
- #<struct Greeb::Tokenizer::Token from=60, to=63, kind=:letter>,
- #<struct Greeb::Tokenizer::Token from=63, to=64, kind=:punct>,
- #<struct Greeb::Tokenizer::Token from=64, to=65, kind=:break>}>
+#<SortedSet: {#<struct Greeb::Entity from=0, to=5, type=:letter>,
+ #<struct Greeb::Entity from=5, to=6, type=:punct>,
+ #<struct Greeb::Entity from=6, to=7, type=:separ>,
+ #<struct Greeb::Entity from=7, to=8, type=:letter>,
+ #<struct Greeb::Entity from=8, to=9, type=:separ>,
+ #<struct Greeb::Entity from=9, to=11, type=:letter>,
+ #<struct Greeb::Entity from=11, to=12, type=:separ>,
+ #<struct Greeb::Entity from=12, to=14, type=:integer>,
+ #<struct Greeb::Entity from=14, to=15, type=:punct>,
+ #<struct Greeb::Entity from=15, to=16, type=:separ>,
+ #<struct Greeb::Entity from=16, to=18, type=:letter>,
+ #<struct Greeb::Entity from=18, to=19, type=:separ>,
+ #<struct Greeb::Entity from=19, to=28, type=:letter>,
+ #<struct Greeb::Entity from=28, to=29, type=:separ>,
+ #<struct Greeb::Entity from=29, to=35, type=:letter>,
+ #<struct Greeb::Entity from=35, to=36, type=:separ>,
+ #<struct Greeb::Entity from=36, to=38, type=:letter>,
+ #<struct Greeb::Entity from=38, to=39, type=:separ>,
+ #<struct Greeb::Entity from=39, to=44, type=:float>,
+ #<struct Greeb::Entity from=44, to=47, type=:punct>,
+ #<struct Greeb::Entity from=47, to=49, type=:break>,
+ #<struct Greeb::Entity from=49, to=53, type=:letter>,
+ #<struct Greeb::Entity from=53, to=54, type=:separ>,
+ #<struct Greeb::Entity from=54, to=59, type=:letter>,
+ #<struct Greeb::Entity from=59, to=60, type=:separ>,
+ #<struct Greeb::Entity from=60, to=63, type=:letter>,
+ #<struct Greeb::Entity from=63, to=64, type=:punct>,
+ #<struct Greeb::Entity from=64, to=65, type=:break>}>
 =end
 ```
 
 ## Tokens
 
-Greeb operates with tokens, a tuples of `<from, to, kind>`, where
-`from` is a beginning of the token, `to` is an ending of the token,
-and `kind` is a type of the token.
+Greeb operates with entities, tuples of `<from, to, type>`, where
+`from` is a beginning of the entity, `to` is an ending of the entity,
+and `type` is a type of the entity.
 
-There are several token types: `:letter`, `:float`, `:integer`,
+There are several entity types: `:letter`, `:float`, `:integer`,
 `:separ`, `:punct` (for punctuation), `:spunct` (for in-sentence
 punctuation), and `:break`.
 
