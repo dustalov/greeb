@@ -42,4 +42,12 @@ class Greeb::Segmentator
 
     sentences
   end
+
+  def extract *sentences
+    Hash[
+      sentences.map do |s|
+        [s, tokens.select { |t| t.from >= s.from and t.to <= s.to }]
+      end
+    ]
+  end
 end

@@ -83,5 +83,30 @@ module Greeb
         )
       end
     end
+
+    describe 'token extractor' do
+      before { @tokenizer = Tokenizer.new('Hello! I am JC Denton.') }
+
+      subject { Segmentator.new(@tokenizer) }
+
+      it 'should be extracted' do
+        subject.extract(*subject.sentences).must_equal({
+          Entity.new(0,  6, :sentence) => [
+            Entity.new(0, 5, :letter),
+            Entity.new(5, 6, :punct)
+          ],
+          Entity.new(7, 22, :sentence) => [
+            Entity.new(7,  8,  :letter),
+            Entity.new(8,  9,  :separ),
+            Entity.new(9,  11, :letter),
+            Entity.new(11, 12, :separ),
+            Entity.new(12, 14, :letter),
+            Entity.new(14, 15, :separ),
+            Entity.new(15, 21, :letter),
+            Entity.new(21, 22, :punct)
+          ]
+        })
+      end
+    end
   end
 end
