@@ -13,8 +13,11 @@ require 'greeb/version'
 #
 class Greeb::Entity < Struct.new(:from, :to, :type)
   def <=> other
-    return 0 if self.from <=> other.from
-    self.to <=> other.to
+    if (comparison = self.from <=> other.from) == 0
+      self.to <=> other.to
+    else
+      comparison
+    end
   end
 end
 
