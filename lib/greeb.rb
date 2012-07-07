@@ -19,3 +19,4 @@ class Greeb::Entity < Struct.new(:from, :to, :type)
 end
 
 require 'greeb/tokenizer'
+require 'greeb/segmentator'
