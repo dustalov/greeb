@@ -2,11 +2,11 @@
 
 require 'greeb/version'
 
-# Greeb operates with tokens, tuples of `<from, to, kind>`, where
-# `from` is a beginning of the token, `to` is an ending of the token,
-# and `kind` is a type of the token.
+# Greeb operates with entities, tuples of `<from, to, kind>`, where
+# `from` is a beginning of the entity, `to` is an ending of the entity,
+# and `kind` is a type of the entity.
 #
-# There are several token types: `:letter`, `:float`, `:integer`,
+# There are several entity types: `:letter`, `:float`, `:integer`,
 # `:separ` for separators, `:punct` for punctuation characters,
 # `:spunct` for in-sentence punctuation characters, and
 # `:break` for line endings.
