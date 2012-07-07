@@ -76,7 +76,7 @@ pp Greeb::Tokenizer.new(text).tokens
 
 ## Tokens
 
-Greeb operates with entites, a tuples of `<from, to, type>`, where
+Greeb operates with entities, a tuples of `<from, to, type>`, where
 `from` is a beginning of the entity, `to` is an ending of the entity,
 and `type` is a type of the entity.
 
