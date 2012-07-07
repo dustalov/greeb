@@ -11,6 +11,11 @@ require 'greeb/version'
 # `:spunct` for in-sentence punctuation characters, and
 # `:break` for line endings.
 #
-class Greeb::Entity < Struct.new(:from, :to, :type); end
+class Greeb::Entity < Struct.new(:from, :to, :type)
+  def <=> other
+    return 0 if self.from <=> other.from
+    self.to <=> other.to
+  end
+end
 
 require 'greeb/tokenizer'

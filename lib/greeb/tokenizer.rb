@@ -62,7 +62,7 @@ class Greeb::Tokenizer
     #
     def tokenize!
       @scanner = StringScanner.new(text)
-      @tokens = Set.new
+      @tokens = SortedSet.new
       while !scanner.eos?
         parse! LETTERS, :letter or
         parse! FLOATS, :float or
