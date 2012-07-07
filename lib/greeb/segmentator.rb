@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class Greeb::Segmentator
-  SENTENCE_DONT_STARTS = [:separ, :break, :punct, :spunct]
+  SENTENCE_DOESNT_START = [:separ, :break, :punct, :spunct]
 
   attr_reader :tokens
 
@@ -17,7 +17,7 @@ class Greeb::Segmentator
     sentences = SortedSet.new
 
     last = tokens.inject(Greeb::Entity.new) do |sentence, token|
-      next sentence if !sentence.from and SENTENCE_DONT_STARTS.include?(token.type)
+      next sentence if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
       sentence.from = token.from unless sentence.from
 
       next sentence if sentence.to and sentence.to > token.to
