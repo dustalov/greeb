@@ -16,29 +16,31 @@ class Greeb::Segmentator
   def sentences
     sentences = SortedSet.new
 
-    last = tokens.inject(Greeb::Entity.new) do |sentence, token|
-      next sentence if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
+    last = tokens.inject(Greeb::Entity.new(nil, nil, :sentence)) do |sentence, token|
+      if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
+        next sentence
+      end
+
       sentence.from = token.from unless sentence.from
 
       next sentence if sentence.to and sentence.to > token.to
 
-      case token.type
-      when :punct then begin
-        finish = tokens.
+      if :punct == token.type
+        sentence.to = tokens.
           select { |t| t.from >= token.from }.
-          inject(token) { |r, t| break r unless t.type == token.type; t }
-        sentences << sentence.tap { |s| s.to = finish.to }
-        sentence = Greeb::Entity.new
-      end
-      when :separ then
-      else
+          inject(token) { |r, t| break r if t.type != token.type; t }.
+          to
+
+        sentences << sentence
+        sentence = Greeb::Entity.new(nil, nil, :sentence)
+      elsif :separ != token.type
         sentence.to = token.to
       end
 
-      sentence.tap { |s| s.type = :sentence }
+      sentence
     end
 
-    sentences << last if last.from && last.to
+    sentences << last if last.from and last.to
 
     sentences
   end
