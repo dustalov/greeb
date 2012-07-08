@@ -12,6 +12,7 @@ require 'greeb/version'
 # `:break` for line endings.
 #
 class Greeb::Entity < Struct.new(:from, :to, :type)
+  # @private
   def <=> other
     if (comparison = self.from <=> other.from) == 0
       self.to <=> other.to

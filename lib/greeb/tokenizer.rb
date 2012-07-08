@@ -82,7 +82,7 @@ class Greeb::Tokenizer
     #
     # @param pattern [Regexp] a regular expression to extract the token.
     # @param type [Symbol] a symbol that represents the necessary token
-    # type.
+    #   type.
     #
     # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
@@ -97,7 +97,7 @@ class Greeb::Tokenizer
     #
     # @param pattern [Regexp] a regular expression to extract the token.
     # @param type [Symbol] a symbol that represents the necessary token
-    # type.
+    #   type.
     #
     # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
