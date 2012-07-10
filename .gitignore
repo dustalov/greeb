@@ -25,6 +25,9 @@ nbproject
 ## RVM
 .rvmrc
 
+## RUBINIUS
+.rbx
+
 ## BUNDLER
 .bundle
 Gemfile.lock
