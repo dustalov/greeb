@@ -87,8 +87,9 @@ class Greeb::Tokenizer
     #
     def parse! pattern, type
       return false unless token = scanner.scan(pattern)
-      @tokens << Greeb::Entity.new(scanner.char_pos - token.length,
-                                   scanner.char_pos,
+      position = scanner.char_pos
+      @tokens << Greeb::Entity.new(position - token.length,
+                                   position,
                                    type)
     end
 
