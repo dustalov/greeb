@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'strscan'
 require 'set'
 
 # Greeb's tokenization facilities. Use 'em with love.
@@ -61,7 +60,7 @@ class Greeb::Tokenizer
     # @return [nil] nothing unless exception is raised.
     #
     def tokenize!
-      @scanner = StringScanner.new(text)
+      @scanner = Greeb::StringScanner.new(text)
       @tokens = SortedSet.new
       while !scanner.eos?
         parse! LETTERS, :letter or
@@ -82,13 +81,15 @@ class Greeb::Tokenizer
     #
     # @param pattern [Regexp] a regular expression to extract the token.
     # @param type [Symbol] a symbol that represents the necessary token
-    # type.
+    #   type.
     #
     # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
     def parse! pattern, type
       return false unless token = scanner.scan(pattern)
-      @tokens << Greeb::Entity.new(scanner.pos - token.length, scanner.pos, type)
+      @tokens << Greeb::Entity.new(scanner.char_pos - token.length,
+                                   scanner.char_pos,
+                                   type)
     end
 
     # Try to parse one small piece of text that is covered by pattern
@@ -97,13 +98,13 @@ class Greeb::Tokenizer
     #
     # @param pattern [Regexp] a regular expression to extract the token.
     # @param type [Symbol] a symbol that represents the necessary token
-    # type.
+    #   type.
     #
     # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
     #
     def split_parse! pattern, type
       return false unless token = scanner.scan(pattern)
-      position = scanner.pos - token.length
+      position = scanner.char_pos - token.length
       token.scan(/((.|\n)\2*)/).map(&:first).inject(position) do |before, s|
         @tokens << Greeb::Entity.new(before, before + s.length, type)
         before + s.length

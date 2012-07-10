@@ -14,7 +14,7 @@ class Greeb::Segmentator
   # Create a new instance of {Greeb::Segmentator}.
   #
   # @param tokenizer_or_tokens [Greeb::Tokenizer,Set] an instance of
-  # Greeb::Tokenizer or set of its results.
+  #   {Greeb::Tokenizer} or set of its results.
   #
   def initialize tokenizer_or_tokens
     @tokens = if tokenizer_or_tokens.is_a? Greeb::Tokenizer
@@ -38,7 +38,7 @@ class Greeb::Segmentator
   # @param sentences [Array<Greeb::Entity>] a list of sentences.
   #
   # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
-  # sentences as keys and tokens arrays as values.
+  #   sentences as keys and tokens arrays as values.
   #
   def extract *sentences
     Hash[

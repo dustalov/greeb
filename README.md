@@ -79,7 +79,8 @@ such as sentence detection tasks:
 
 ```ruby
 text = 'Hello! How are you?'
-pp Greeb::Segmentator.new(Greeb::Tokenizer.new(text))
+tokenizer = Greeb::Tokenizer.new(text)
+pp Greeb::Segmentator.new(tokenizer).sentences
 =begin
 #<SortedSet: {#<struct Greeb::Entity from=0, to=6, type=:sentence>,
  #<struct Greeb::Entity from=7, to=19, type=:sentence>}>
@@ -91,8 +92,8 @@ segmentator:
 
 ```ruby
 text = 'Hello! How are you?'
-segmentator = Greeb::Segmentator.new(Greeb::Tokenizer.new(text))
-sentences = segmentator.sentences
+tokenizer = Greeb::Tokenizer.new(text)
+sentences = Greeb::Segmentator.new(tokenizer).sentences
 pp segmentator.extract(*sentences)
 =begin
 {#<struct Greeb::Entity from=0, to=6, type=:sentence>=>
@@ -135,6 +136,6 @@ systematic and awesome.
 
 ## Copyright
 
-Copyright (c) 2010-2012 [Dmitry A. Ustalov]. See LICENSE for details.
+Copyright (c) 2010-2012 [Dmitry Ustalov]. See LICENSE for details.
 
-[Dmitry A. Ustalov]: http://eveel.ru
+[Dmitry Ustalov]: http://eveel.ru

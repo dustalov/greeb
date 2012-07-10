@@ -86,6 +86,22 @@ module Greeb
                          Entity.new(4, 7, :integer)])
         )
       end
+
+      it 'can deal with Russian language' do
+        Tokenizer.new('Братишка, я тебе покушать принёс!').tokens.must_equal(
+          SortedSet.new([Entity.new(0,  8,  :letter),
+                         Entity.new(8,  9,  :spunct),
+                         Entity.new(9,  10, :separ),
+                         Entity.new(10, 11, :letter),
+                         Entity.new(11, 12, :separ),
+                         Entity.new(12, 16, :letter),
+                         Entity.new(16, 17, :separ),
+                         Entity.new(17, 25, :letter),
+                         Entity.new(25, 26, :separ),
+                         Entity.new(26, 32, :letter),
+                         Entity.new(32, 33, :punct)])
+          )
+      end
     end
   end
 end

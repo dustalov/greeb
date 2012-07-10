@@ -12,6 +12,7 @@ require 'greeb/version'
 # `:break` for line endings.
 #
 class Greeb::Entity < Struct.new(:from, :to, :type)
+  # @private
   def <=> other
     if (comparison = self.from <=> other.from) == 0
       self.to <=> other.to
@@ -21,5 +22,6 @@ class Greeb::Entity < Struct.new(:from, :to, :type)
   end
 end
 
+require 'greeb/strscan'
 require 'greeb/tokenizer'
 require 'greeb/segmentator'

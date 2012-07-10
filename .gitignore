@@ -29,6 +29,10 @@ nbproject
 .bundle
 Gemfile.lock
 
+## YARD
+.yardoc
+doc
+
 ## PROJECT::GENERAL
 coverage
 pkg
