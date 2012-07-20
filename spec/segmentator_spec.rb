@@ -89,8 +89,10 @@ module Greeb
 
       subject { Segmentator.new(@tokenizer) }
 
+      let(:sentences) { subject.sentences }
+
       it 'should be extracted' do
-        subject.extract(*subject.sentences).must_equal({
+        subject.extract(*sentences).must_equal({
           Entity.new(0,  6, :sentence) => [
             Entity.new(0, 5, :letter),
             Entity.new(5, 6, :punct)
