@@ -111,9 +111,9 @@ pp segmentator.extract(*sentences)
 
 ## Tokens
 
-Greeb operates with entities, tuples of `<from, to, type>`, where
-`from` is a beginning of the entity, `to` is an ending of the entity,
-and `type` is a type of the entity.
+Greeb operates with entities, tuples of *(from, to, kind)*, where
+*from* is a beginning of the entity, *to* is an ending of the entity,
+and *kind* is a type of the entity.
 
 There are several entity types: `:letter`, `:float`, `:integer`,
 `:separ`, `:punct` (for punctuation), `:spunct` (for in-sentence
