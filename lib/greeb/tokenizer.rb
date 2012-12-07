@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'set'
-
 # Greeb's tokenization facilities. Use 'em with love.
 #
 class Greeb::Tokenizer
@@ -61,7 +59,7 @@ class Greeb::Tokenizer
     #
     def tokenize!
       @scanner = Greeb::StringScanner.new(text)
-      @tokens = SortedSet.new
+      @tokens = []
       while !scanner.eos?
         parse! LETTERS, :letter or
         parse! FLOATS, :float or
