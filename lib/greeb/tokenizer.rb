@@ -3,9 +3,27 @@
 # Greeb's tokenization facilities. Use 'em with love.
 #
 class Greeb::Tokenizer
+  # This runtime error appears when {Greeb::Tokenizer} tries to recognize
+  # unknown character.
+  #
+  class UnknownEntity < RuntimeError
+    attr_reader :text, :pos
+
+    # @private
+    def initialize(text, pos)
+      @text, @pos = text, pos
+    end
+
+    # Generate the real error message.
+    #
+    def to_s
+      'Could not recognize character "%s" @ %d' % [text[pos], pos]
+    end
+  end
+
   # English and Russian letters.
   #
-  LETTERS = /[A-Za-zА-Яа-яЁё]+/u
+  LETTERS = /[\p{L}]+/u
 
   # Floating point values.
   #
@@ -15,21 +33,21 @@ class Greeb::Tokenizer
   #
   INTEGERS = /\d+/u
 
-  # In-subsentence seprator (i.e.: "*" or "=").
+  # In-sentence punctuation character (i.e.: "," or "-").
   #
-  SEPARATORS = /[*=_\/\\ ]+/u
+  SENTENCE_PUNCTUATIONS = /(\,|\-|:|;|\p{Ps}|\p{Pi}|\p{Pf}|\p{Pe})+/u
 
   # Punctuation character (i.e.: "." or "!").
   #
-  PUNCTUATIONS = /(\.|\!|\?)+/u
+  PUNCTUATIONS = /[(\.|\!|\?)]+/u
 
-  # In-sentence punctuation character (i.e.: "," or "-").
+  # In-subsentence seprator (i.e.: "*" or "=").
   #
-  SENTENCE_PUNCTUATIONS = /(\,|\[|\]|\(|\)|\-|:|;)+/u
+  SEPARATORS = /[ \p{Sm}\p{Pc}\p{Po}\p{Pd}]+/u
 
   # Line breaks.
   #
-  BREAKS = /\n+/u
+  BREAKS = /(\r\n|\n|\r)+/u
 
   attr_reader :text, :scanner
   protected :scanner
@@ -68,7 +86,7 @@ class Greeb::Tokenizer
         split_parse! PUNCTUATIONS, :punct or
         split_parse! SEPARATORS, :separ or
         split_parse! BREAKS, :break or
-        raise @tokens.inspect
+        raise UnknownEntity.new(text, scanner.char_pos)
       end
     ensure
       scanner.terminate
