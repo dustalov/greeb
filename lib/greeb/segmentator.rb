@@ -79,7 +79,7 @@ class Greeb::Segmentator
     # @return [nil] nothing.
     #
     def detect_sentences!
-      @sentences = SortedSet.new
+      @sentences = []
 
       rest = tokens.inject(new_sentence) do |sentence, token|
         if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)

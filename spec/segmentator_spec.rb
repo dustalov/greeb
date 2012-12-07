@@ -10,12 +10,12 @@ module Greeb
       subject { Segmentator.new(@tokenizer) }
 
       it 'can be initialized either with Tokenizer' do
-        subject.tokens.must_be_kind_of SortedSet
+        subject.tokens.must_be_kind_of Array
       end
 
       it 'can be initialized either with a set of tokens' do
         subject = Segmentator.new(@tokenizer.tokens)
-        subject.tokens.must_be_kind_of SortedSet
+        subject.tokens.must_be_kind_of Array
       end
 
       it 'should has @tokens ivar' do
@@ -30,7 +30,7 @@ module Greeb
 
       it 'should be segmented' do
         subject.must_equal(
-          SortedSet.new([Entity.new(0, 22, :sentence)])
+          [Entity.new(0, 22, :sentence)]
         )
       end
     end
@@ -42,7 +42,7 @@ module Greeb
 
       it 'should be segmented' do
         subject.must_equal(
-          SortedSet.new([Entity.new(0, 21, :sentence)])
+          [Entity.new(0, 21, :sentence)]
         )
       end
     end
@@ -54,7 +54,7 @@ module Greeb
 
       it 'should be segmented' do
         subject.must_equal(
-          SortedSet.new([Entity.new(6, 27, :sentence)])
+          [Entity.new(6, 27, :sentence)]
         )
       end
     end
@@ -66,8 +66,8 @@ module Greeb
 
       it 'should be segmented' do
         subject.must_equal(
-          SortedSet.new([Entity.new(0, 6,  :sentence),
-                         Entity.new(7, 22, :sentence)])
+          [Entity.new(0, 6,  :sentence),
+           Entity.new(7, 22, :sentence)]
         )
       end
     end
@@ -79,7 +79,7 @@ module Greeb
 
       it 'should be segmented' do
         subject.must_equal(
-          SortedSet.new([Entity.new(2, 17, :sentence)])
+          [Entity.new(2, 17, :sentence)]
         )
       end
     end

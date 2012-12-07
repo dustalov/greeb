@@ -132,11 +132,6 @@ systematic and awesome.
 
 ## Build Status [<img src="https://secure.travis-ci.org/eveel/greeb.png"/>](http://travis-ci.org/eveel/greeb)
 
-If you're using [Rubinius](http://rubini.us) please note that it has the
-incompatible `StringScanner` implementation. More information can be
-provided under the following link:
-<https://github.com/rubinius/rubinius/issues/1808>.
-
 ## Dependency Status [<img src="https://gemnasium.com/eveel/greeb.png?travis"/>](https://gemnasium.com/eveel/greeb)
 
 ## Copyright
