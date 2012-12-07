@@ -62,7 +62,7 @@ class Greeb::Tokenizer
 
   # Tokens memoization method.
   #
-  # @return [Set<Greeb::Entity>] a set of tokens.
+  # @return [Array<Greeb::Entity>] a set of tokens.
   #
   def tokens
     tokenize! unless @tokens
@@ -99,7 +99,7 @@ class Greeb::Tokenizer
     # @param type [Symbol] a symbol that represents the necessary token
     #   type.
     #
-    # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
+    # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
     #
     def parse! pattern, type
       return false unless token = scanner.scan(pattern)
@@ -117,7 +117,7 @@ class Greeb::Tokenizer
     # @param type [Symbol] a symbol that represents the necessary token
     #   type.
     #
-    # @return [Set<Greeb::Entity>] the modified set of extracted tokens.
+    # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
     #
     def split_parse! pattern, type
       return false unless token = scanner.scan(pattern)

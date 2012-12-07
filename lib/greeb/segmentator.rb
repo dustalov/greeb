@@ -26,7 +26,7 @@ class Greeb::Segmentator
 
   # Sentences memoization method.
   #
-  # @return [Set<Greeb::Entity>] a set of sentences.
+  # @return [Array<Greeb::Entity>] a set of sentences.
   #
   def sentences
     detect_sentences! unless @sentences
@@ -35,7 +35,7 @@ class Greeb::Segmentator
 
   # Subsentences memoization method.
   #
-  # @return [Set<Greeb::Entity>] a set of subsentences.
+  # @return [Array<Greeb::Entity>] a set of subsentences.
   #
   def subsentences
     detect_subsentences! unless @subsentences
