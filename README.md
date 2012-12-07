@@ -27,8 +27,8 @@ Greeb can help you to solve simple text processing problems:
 ```ruby
 pp Greeb::Tokenizer.new('Hello!').tokens
 =begin
-#<SortedSet: {#<struct Greeb::Entity from=0, to=5, type=:letter>,
- #<struct Greeb::Entity from=5, to=6, type=:punct>}>
+[#<struct Greeb::Entity from=0, to=5, type=:letter>,
+ #<struct Greeb::Entity from=5, to=6, type=:punct>]
 =end
 ```
 
@@ -43,7 +43,7 @@ EOF
 
 pp Greeb::Tokenizer.new(text).tokens
 =begin
-#<SortedSet: {#<struct Greeb::Entity from=0, to=5, type=:letter>,
+[#<struct Greeb::Entity from=0, to=5, type=:letter>,
  #<struct Greeb::Entity from=5, to=6, type=:punct>,
  #<struct Greeb::Entity from=6, to=7, type=:separ>,
  #<struct Greeb::Entity from=7, to=8, type=:letter>,
@@ -70,7 +70,7 @@ pp Greeb::Tokenizer.new(text).tokens
  #<struct Greeb::Entity from=59, to=60, type=:separ>,
  #<struct Greeb::Entity from=60, to=63, type=:letter>,
  #<struct Greeb::Entity from=63, to=64, type=:punct>,
- #<struct Greeb::Entity from=64, to=65, type=:break>}>
+ #<struct Greeb::Entity from=64, to=65, type=:break>]
 =end
 ```
 
@@ -82,8 +82,8 @@ text = 'Hello! How are you?'
 tokenizer = Greeb::Tokenizer.new(text)
 pp Greeb::Segmentator.new(tokenizer).sentences
 =begin
-#<SortedSet: {#<struct Greeb::Entity from=0, to=6, type=:sentence>,
- #<struct Greeb::Entity from=7, to=19, type=:sentence>}>
+[#<struct Greeb::Entity from=0, to=6, type=:sentence>,
+ #<struct Greeb::Entity from=7, to=19, type=:sentence>]
 =end
 ```
 
