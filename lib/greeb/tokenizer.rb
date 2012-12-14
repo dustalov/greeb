@@ -1,6 +1,9 @@
 # encoding: utf-8
 
-# Greeb's tokenization facilities. Use 'em with love.
+# Greeb's tokenization facilities. Use 'em with love. 
+#
+# Unicode character categories been obtained from
+# <http://www.fileformat.info/info/unicode/category/index.htm>.
 #
 class Greeb::Tokenizer
   # This runtime error appears when {Greeb::Tokenizer} tries to recognize
@@ -43,11 +46,15 @@ class Greeb::Tokenizer
 
   # In-subsentence seprator (i.e.: "*" or "=").
   #
-  SEPARATORS = /[ \p{Sm}\p{Pc}\p{Po}\p{Pd}]+/u
+  SEPARATORS = /[ \p{Nl}\p{No}\p{Pd}\p{Pc}\p{Po}\p{Sm}\p{So}\p{Sc}\p{Z}]+/u
 
   # Line breaks.
   #
   BREAKS = /(\r\n|\n|\r)+/u
+
+  # Residuals.
+  #
+  RESIDUALS = /[\p{C}\p{M}\p{Sk}]+/u
 
   attr_reader :text, :scanner
   protected :scanner
@@ -86,6 +93,7 @@ class Greeb::Tokenizer
         split_parse! PUNCTUATIONS, :punct or
         split_parse! SEPARATORS, :separ or
         split_parse! BREAKS, :break or
+        parse! RESIDUALS, :residual or
         raise UnknownEntity.new(text, scanner.char_pos)
       end
     ensure
