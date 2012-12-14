@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ['Dmitry Ustalov']
   s.email       = ['dmitry@eveel.ru']
   s.homepage    = 'https://github.com/eveel/greeb'
-  s.summary     = 'Greeb is a simple regexp-based tokenizer.'
-  s.description = 'Greeb is a simple yet awesome regexp-based tokenizer, ' \
-                  'written in Ruby.'
+  s.summary     = 'Greeb is a simple Unicode-aware regexp-based tokenizer.'
+  s.description = 'Greeb is a simple yet awesome and Unicode-aware ' \
+                  'regexp-based tokenizer, written in Ruby.'
 
   s.rubyforge_project = 'greeb'
 
