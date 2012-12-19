@@ -4,59 +4,35 @@ require File.expand_path('../spec_helper', __FILE__)
 
 module Greeb
   describe Tokenizer do
-    describe 'initialization' do
-      subject { Tokenizer.new('vodka') }
-
-      it 'should be initialized with a text' do
-        subject.text.must_equal 'vodka'
-      end
-
-      it 'should has the @text ivar' do
-        subject.instance_variable_get(:@text).must_equal 'vodka'
-      end
-
-      it 'should not has @tokens ivar' do
-        subject.instance_variable_get(:@tokens).must_be_nil
-      end
-    end
-
     describe 'after tokenization' do
-      subject { Tokenizer.new('vodka').tap(&:tokens) }
-
-      it 'should has the @tokens ivar' do
-        subject.instance_variable_get(:@tokens).wont_be_nil
-      end
-
-      it 'should has the @scanner ivar' do
-        subject.instance_variable_get(:@scanner).wont_be_nil
-      end
+      subject { Tokenizer.tokenize('vodka') }
 
       it 'should has the tokens set' do
-        subject.tokens.must_be_kind_of Array
+        subject.must_be_kind_of Array
       end
     end
 
     describe 'tokenization facilities' do
       it 'can handle words' do
-        Tokenizer.new('hello').tokens.must_equal(
+        Tokenizer.tokenize('hello').must_equal(
           [Entity.new(0, 5, :letter)]
         )
       end
 
       it 'can handle floats' do
-        Tokenizer.new('14.88').tokens.must_equal(
+        Tokenizer.tokenize('14.88').must_equal(
           [Entity.new(0, 5, :float)]
         )
       end
 
       it 'can handle integers' do
-        Tokenizer.new('1337').tokens.must_equal(
+        Tokenizer.tokenize('1337').must_equal(
           [Entity.new(0, 4, :integer)]
         )
       end
 
       it 'can handle words and integers' do
-        Tokenizer.new('Hello, I am 18').tokens.must_equal(
+        Tokenizer.tokenize('Hello, I am 18').must_equal(
           [Entity.new(0,  5,  :letter),
            Entity.new(5,  6,  :spunct),
            Entity.new(6,  7,  :separ),
@@ -69,7 +45,7 @@ module Greeb
       end
 
       it 'can handle multi-line paragraphs' do
-        Tokenizer.new("Brateeshka..!\n\nPrines!").tokens.must_equal(
+        Tokenizer.tokenize("Brateeshka..!\n\nPrines!").must_equal(
           [Entity.new(0,  10, :letter),
            Entity.new(10, 12, :punct),
            Entity.new(12, 13, :punct),
@@ -80,7 +56,7 @@ module Greeb
       end
 
       it 'can handle separated integers' do
-        Tokenizer.new('228/359').tokens.must_equal(
+        Tokenizer.tokenize('228/359').must_equal(
           [Entity.new(0, 3, :integer),
            Entity.new(3, 4, :separ),
            Entity.new(4, 7, :integer)]
@@ -88,7 +64,7 @@ module Greeb
       end
 
       it 'can deal with Russian language' do
-        Tokenizer.new('Братишка, я тебе покушать принёс!').tokens.must_equal(
+        Tokenizer.tokenize('Братишка, я тебе покушать принёс!').must_equal(
           [Entity.new(0,  8,  :letter),
            Entity.new(8,  9,  :spunct),
            Entity.new(9,  10, :separ),

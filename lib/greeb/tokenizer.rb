@@ -5,24 +5,9 @@
 # Unicode character categories been obtained from
 # <http://www.fileformat.info/info/unicode/category/index.htm>.
 #
-class Greeb::Tokenizer
-  # This runtime error appears when {Greeb::Tokenizer} tries to recognize
-  # unknown character.
-  #
-  class UnknownEntity < RuntimeError
-    attr_reader :text, :pos
-
-    # @private
-    def initialize(text, pos)
-      @text, @pos = text, pos
-    end
-
-    # Generate the real error message.
-    #
-    def to_s
-      'Could not recognize character "%s" @ %d' % [text[pos], pos]
-    end
-  end
+module Greeb::Tokenizer
+  # http://www.youtube.com/watch?v=eF1lU-CrQfc
+  extend self
 
   # English and Russian letters.
   #
@@ -56,83 +41,67 @@ class Greeb::Tokenizer
   #
   RESIDUALS = /[\p{C}\p{M}\p{Sk}]+/u
 
-  attr_reader :text, :scanner
-  protected :scanner
-
-  # Create a new instance of {Greeb::Tokenizer}.
-  #
-  # @param text [String] text to be tokenized.
-  #
-  def initialize(text)
-    @text = text
-  end
-
-  # Tokens memoization method.
+  # Perform the tokenization process.
   #
   # @return [Array<Greeb::Entity>] a set of tokens.
   #
-  def tokens
-    tokenize! unless @tokens
-    @tokens
+  def tokenize text
+    scanner = Greeb::StringScanner.new(text)
+    tokens = []
+    while !scanner.eos?
+      parse! scanner, tokens, LETTERS, :letter or
+      parse! scanner, tokens, FLOATS, :float or
+      parse! scanner, tokens, INTEGERS, :integer or
+      split_parse! scanner, tokens, SENTENCE_PUNCTUATIONS, :spunct or
+      split_parse! scanner, tokens, PUNCTUATIONS, :punct or
+      split_parse! scanner, tokens, SEPARATORS, :separ or
+      split_parse! scanner, tokens, BREAKS, :break or
+      parse! scanner, tokens, RESIDUALS, :residual or
+      raise UnknownEntity.new(text, scanner.char_pos)
+    end
+    tokens
+  ensure
+    scanner.terminate
   end
 
   protected
-    # Perform the tokenization process. This method modifies
-    # `@scanner` and `@tokens` instance variables.
-    #
-    # @return [nil] nothing unless exception is raised.
-    #
-    def tokenize!
-      @scanner = Greeb::StringScanner.new(text)
-      @tokens = []
-      while !scanner.eos?
-        parse! LETTERS, :letter or
-        parse! FLOATS, :float or
-        parse! INTEGERS, :integer or
-        split_parse! SENTENCE_PUNCTUATIONS, :spunct or
-        split_parse! PUNCTUATIONS, :punct or
-        split_parse! SEPARATORS, :separ or
-        split_parse! BREAKS, :break or
-        parse! RESIDUALS, :residual or
-        raise UnknownEntity.new(text, scanner.char_pos)
-      end
-    ensure
-      scanner.terminate
-    end
+  # Try to parse one small piece of text that is covered by pattern
+  # of necessary type.
+  #
+  # @param scanner [Greeb::StringScanner] string scanner.
+  # @param tokens [Array<Greeb::Entity>] result array.
+  # @param pattern [Regexp] a regular expression to extract the token.
+  # @param type [Symbol] a symbol that represents the necessary token
+  #   type.
+  #
+  # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
+  #
+  def parse! scanner, tokens, pattern, type
+    return false unless token = scanner.scan(pattern)
+    position = scanner.char_pos
+    tokens << Greeb::Entity.new(position - token.length,
+                                position,
+                                type)
+  end
 
-    # Try to parse one small piece of text that is covered by pattern
-    # of necessary type.
-    #
-    # @param pattern [Regexp] a regular expression to extract the token.
-    # @param type [Symbol] a symbol that represents the necessary token
-    #   type.
-    #
-    # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
-    #
-    def parse! pattern, type
-      return false unless token = scanner.scan(pattern)
-      position = scanner.char_pos
-      @tokens << Greeb::Entity.new(position - token.length,
-                                   position,
-                                   type)
+  # Try to parse one small piece of text that is covered by pattern
+  # of necessary type. This method performs grouping of the same
+  # characters.
+  #
+  # @param scanner [Greeb::StringScanner] string scanner.
+  # @param tokens [Array<Greeb::Entity>] result array.
+  # @param pattern [Regexp] a regular expression to extract the token.
+  # @param type [Symbol] a symbol that represents the necessary token
+  #   type.
+  #
+  # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
+  #
+  def split_parse! scanner, tokens, pattern, type
+    return false unless token = scanner.scan(pattern)
+    position = scanner.char_pos - token.length
+    token.scan(/((.|\n)\2*)/).map(&:first).inject(position) do |before, s|
+      tokens << Greeb::Entity.new(before, before + s.length, type)
+      before + s.length
     end
-
-    # Try to parse one small piece of text that is covered by pattern
-    # of necessary type. This method performs grouping of the same
-    # characters.
-    #
-    # @param pattern [Regexp] a regular expression to extract the token.
-    # @param type [Symbol] a symbol that represents the necessary token
-    #   type.
-    #
-    # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
-    #
-    def split_parse! pattern, type
-      return false unless token = scanner.scan(pattern)
-      position = scanner.char_pos - token.length
-      token.scan(/((.|\n)\2*)/).map(&:first).inject(position) do |before, s|
-        @tokens << Greeb::Entity.new(before, before + s.length, type)
-        before + s.length
-      end
-    end
+  end
 end
