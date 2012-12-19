@@ -68,90 +68,90 @@ class Greeb::Segmentator
   end
 
   protected
-    # Implementation of the sentence detection method. This method
-    # changes the `@sentences` ivar.
-    #
-    # @return [nil] nothing.
-    #
-    def detect_sentences!
-      @sentences = []
+  # Implementation of the sentence detection method. This method
+  # changes the `@sentences` ivar.
+  #
+  # @return [nil] nothing.
+  #
+  def detect_sentences!
+    @sentences = []
 
-      rest = tokens.inject(new_sentence) do |sentence, token|
-        if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
-          next sentence
-        end
-
-        sentence.from = token.from unless sentence.from
-
-        next sentence if sentence.to and sentence.to > token.to
-
-        if :punct == token.type
-          sentence.to = tokens.
-            select { |t| t.from >= token.from }.
-            inject(token) { |r, t| break r if t.type != token.type; t }.
-            to
-
-          @sentences << sentence
-          sentence = new_sentence
-        elsif :separ != token.type
-          sentence.to = token.to
-        end
-
-        sentence
+    rest = tokens.inject(new_sentence) do |sentence, token|
+      if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
+        next sentence
       end
 
-      nil.tap { @sentences << rest if rest.from and rest.to }
-    end
+      sentence.from = token.from unless sentence.from
 
-    # Implementation of the subsentence detection method. This method
-    # changes the `@subsentences` ivar.
-    #
-    # @return [nil] nothing.
-    #
-    def detect_subsentences!
-      @subsentences = SortedSet.new
+      next sentence if sentence.to and sentence.to > token.to
 
-      rest = tokens.inject(new_subsentence) do |subsentence, token|
-        if !subsentence.from and SENTENCE_DOESNT_START.include?(token.type)
-          next subsentence
-        end
+      if :punct == token.type
+        sentence.to = tokens.
+          select { |t| t.from >= token.from }.
+          inject(token) { |r, t| break r if t.type != token.type; t }.
+          to
 
-        subsentence.from = token.from unless subsentence.from
-
-        next subsentence if subsentence.to and subsentence.to > token.to
-
-        if [:punct, :spunct].include? token.type
-          subsentence.to = tokens.
-            select { |t| t.from >= token.from }.
-            inject(token) { |r, t| break r if t.type != token.type; t }.
-            to
-
-          @subsentences << subsentence
-          subsentence = new_subsentence
-        elsif :separ != token.type
-          subsentence.to = token.to
-        end
-
-        subsentence
+        @sentences << sentence
+        sentence = new_sentence
+      elsif :separ != token.type
+        sentence.to = token.to
       end
 
-      nil.tap { @subsentences << rest if rest.from and rest.to }
+      sentence
     end
+
+    nil.tap { @sentences << rest if rest.from and rest.to }
+  end
+
+  # Implementation of the subsentence detection method. This method
+  # changes the `@subsentences` ivar.
+  #
+  # @return [nil] nothing.
+  #
+  def detect_subsentences!
+    @subsentences = SortedSet.new
+
+    rest = tokens.inject(new_subsentence) do |subsentence, token|
+      if !subsentence.from and SENTENCE_DOESNT_START.include?(token.type)
+        next subsentence
+      end
+
+      subsentence.from = token.from unless subsentence.from
+
+      next subsentence if subsentence.to and subsentence.to > token.to
+
+      if [:punct, :spunct].include? token.type
+        subsentence.to = tokens.
+          select { |t| t.from >= token.from }.
+          inject(token) { |r, t| break r if t.type != token.type; t }.
+          to
+
+        @subsentences << subsentence
+        subsentence = new_subsentence
+      elsif :separ != token.type
+        subsentence.to = token.to
+      end
+
+      subsentence
+    end
+
+    nil.tap { @subsentences << rest if rest.from and rest.to }
+  end
 
   private
-    # Create a new instance of {Greeb::Entity} with `:sentence` type.
-    #
-    # @return [Greeb::Entity] a new entity instance.
-    #
-    def new_sentence
-      Greeb::Entity.new(nil, nil, :sentence)
-    end
+  # Create a new instance of {Greeb::Entity} with `:sentence` type.
+  #
+  # @return [Greeb::Entity] a new entity instance.
+  #
+  def new_sentence
+    Greeb::Entity.new(nil, nil, :sentence)
+  end
 
-    # Create a new instance of {Greeb::Entity} with `:subsentence` type.
-    #
-    # @return [Greeb::Entity] a new entity instance.
-    #
-    def new_subsentence
-      Greeb::Entity.new(nil, nil, :subsentence)
-    end
+  # Create a new instance of {Greeb::Entity} with `:subsentence` type.
+  #
+  # @return [Greeb::Entity] a new entity instance.
+  #
+  def new_subsentence
+    Greeb::Entity.new(nil, nil, :subsentence)
+  end
 end
