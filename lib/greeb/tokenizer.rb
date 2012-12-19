@@ -57,7 +57,7 @@ module Greeb::Tokenizer
       split_parse! scanner, tokens, SEPARATORS, :separ or
       split_parse! scanner, tokens, BREAKS, :break or
       parse! scanner, tokens, RESIDUALS, :residual or
-      raise UnknownEntity.new(text, scanner.char_pos)
+      raise Greeb::UnknownEntity.new(text, scanner.char_pos)
     end
     tokens
   ensure
