@@ -94,7 +94,7 @@ segmentator:
 text = 'Hello! How are you?'
 tokens = Greeb::Tokenizer.tokenize(text)
 sentences = Greeb::Segmentator.new(tokens).sentences
-pp segmentator.extract(*sentences)
+pp segmentator.extract(sentences)
 =begin
 {#<struct Greeb::Entity from=0, to=6, type=:sentence>=>
   [#<struct Greeb::Entity from=0, to=5, type=:letter>,

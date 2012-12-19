@@ -44,7 +44,7 @@ class Greeb::Segmentator
   # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
   #   sentences as keys and tokens arrays as values.
   #
-  def extract *sentences
+  def extract sentences
     Hash[
       sentences.map do |s|
         [s, tokens.select { |t| t.from >= s.from and t.to <= s.to }]
@@ -59,7 +59,7 @@ class Greeb::Segmentator
   # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
   #   sentences as keys and subsentences arrays as values.
   #
-  def subextract *sentences
+  def subextract sentences
     Hash[
       sentences.map do |s|
         [s, subsentences.select { |ss| ss.from >= s.from and ss.to <= s.to }]
