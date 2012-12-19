@@ -5,16 +5,11 @@ require File.expand_path('../spec_helper', __FILE__)
 module Greeb
   describe Segmentator do
     describe 'initialization' do
-      before { @tokenizer = Tokenizer.new('Vodka') }
+      let(:tokens) { Tokenizer.tokenize('Vodka') }
 
-      subject { Segmentator.new(@tokenizer) }
+      subject { Segmentator.new(tokens) }
 
-      it 'can be initialized either with Tokenizer' do
-        subject.tokens.must_be_kind_of Array
-      end
-
-      it 'can be initialized either with a set of tokens' do
-        subject = Segmentator.new(@tokenizer.tokens)
+      it 'is initialized either with set of tokens' do
         subject.tokens.must_be_kind_of Array
       end
 
@@ -24,75 +19,64 @@ module Greeb
     end
 
     describe 'a simple sentence' do
-      before { @tokenizer = Tokenizer.new('Hello, I am JC Denton.') }
+      let(:tokens) { Tokenizer.tokenize('Hello, I am JC Denton.') }
 
-      subject { Segmentator.new(@tokenizer).sentences }
+      subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal(
-          [Entity.new(0, 22, :sentence)]
-        )
+        subject.must_equal([Entity.new(0, 22, :sentence)])
       end
     end
 
     describe 'a simple sentence without punctuation' do
-      before { @tokenizer = Tokenizer.new('Hello, I am JC Denton') }
+      let(:tokens) { Tokenizer.tokenize('Hello, I am JC Denton') }
 
-      subject { Segmentator.new(@tokenizer).sentences }
+      subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal(
-          [Entity.new(0, 21, :sentence)]
-        )
+        subject.must_equal([Entity.new(0, 21, :sentence)])
       end
     end
 
     describe 'a simple sentence with trailing whitespaces' do
-      before { @tokenizer = Tokenizer.new('      Hello, I am JC Denton  ') }
+      let(:tokens) { Tokenizer.tokenize('      Hello, I am JC Denton  ') }
 
-      subject { Segmentator.new(@tokenizer).sentences }
+      subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal(
-          [Entity.new(6, 27, :sentence)]
-        )
+        subject.must_equal([Entity.new(6, 27, :sentence)])
       end
     end
 
     describe 'two simple sentences' do
-      before { @tokenizer = Tokenizer.new('Hello! I am JC Denton.') }
+      let(:tokens) { Tokenizer.tokenize('Hello! I am JC Denton.') }
 
-      subject { Segmentator.new(@tokenizer).sentences }
+      subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal(
-          [Entity.new(0, 6,  :sentence),
-           Entity.new(7, 22, :sentence)]
-        )
+        subject.must_equal([Entity.new(0, 6,  :sentence),
+                            Entity.new(7, 22, :sentence)])
       end
     end
 
     describe 'one wrong character and one simple sentence' do
-      before { @tokenizer = Tokenizer.new('! I am JC Denton.') }
+      let(:tokens) { Tokenizer.tokenize('! I am JC Denton.') }
 
-      subject { Segmentator.new(@tokenizer).sentences }
+      subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal(
-          [Entity.new(2, 17, :sentence)]
-        )
+        subject.must_equal([Entity.new(2, 17, :sentence)])
       end
     end
 
-    describe 'token extractor' do
-      before { @tokenizer = Tokenizer.new('Hello! I am JC Denton.') }
+    describe 'sentence extractor' do
+      let(:tokens) { Tokenizer.tokenize('Hello! I am JC Denton.') }
+      let(:segmentator) { Segmentator.new(tokens) }
 
-      subject { Segmentator.new(@tokenizer) }
-
-      let(:sentences) { subject.sentences }
+      subject { segmentator.extract(*segmentator.sentences) }
 
       it 'should be extracted' do
-        subject.extract(*sentences).must_equal({
+        subject.must_equal(
           Entity.new(0,  6, :sentence) => [
             Entity.new(0, 5, :letter),
             Entity.new(5, 6, :punct)
@@ -107,24 +91,23 @@ module Greeb
             Entity.new(15, 21, :letter),
             Entity.new(21, 22, :punct)
           ]
-        })
+        )
       end
     end
 
     describe 'subsentence extractor' do
-      before { @tokenizer = Tokenizer.new('Hello, I am JC Denton.') }
+      let(:tokens) { Tokenizer.tokenize('Hello, I am JC Denton.') }
+      let(:segmentator) { Segmentator.new(tokens) }
 
-      subject { Segmentator.new(@tokenizer) }
-
-      let(:sentences) { subject.sentences }
+      subject { segmentator.subextract(*segmentator.sentences) }
 
       it 'should extract subsentences' do
-        subject.subextract(*sentences).must_equal({
+        subject.must_equal(
           Entity.new(0,  22, :sentence) => [
             Entity.new(0, 6, :subsentence),
             Entity.new(7, 22, :subsentence)
           ]
-        })
+        )
       end
     end
   end

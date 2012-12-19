@@ -13,15 +13,10 @@ class Greeb::Segmentator
 
   # Create a new instance of {Greeb::Segmentator}.
   #
-  # @param tokenizer_or_tokens [Greeb::Tokenizer,Set] an instance of
-  #   {Greeb::Tokenizer} or set of its results.
+  # @param tokens [Array<Greeb::Entity>] tokens from [Greeb::Tokenizer].
   #
-  def initialize tokenizer_or_tokens
-    @tokens = if tokenizer_or_tokens.is_a? Greeb::Tokenizer
-      tokenizer_or_tokens.tokens
-    else
-      tokenizer_or_tokens
-    end
+  def initialize tokens
+    @tokens = tokens
   end
 
   # Sentences memoization method.
