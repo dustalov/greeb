@@ -64,7 +64,7 @@ module Greeb::Tokenizer
     scanner.terminate
   end
 
-  protected
+  private
   # Try to parse one small piece of text that is covered by pattern
   # of necessary type.
   #
