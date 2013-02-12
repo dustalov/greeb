@@ -93,8 +93,8 @@ segmentator:
 ```ruby
 text = 'Hello! How are you?'
 tokens = Greeb::Tokenizer.tokenize(text)
-sentences = Greeb::Segmentator.new(tokens).sentences
-pp segmentator.extract(sentences)
+segmentator = Greeb::Segmentator.new(tokens)
+pp segmentator.extract(segmentator.sentences)
 =begin
 {#<struct Greeb::Entity from=0, to=6, type=:sentence>=>
   [#<struct Greeb::Entity from=0, to=5, type=:letter>,
@@ -133,6 +133,6 @@ punctuation), and `:break`.
 
 ## Copyright
 
-Copyright (c) 2010-2012 [Dmitry Ustalov]. See LICENSE for details.
+Copyright (c) 2010-2013 [Dmitry Ustalov]. See LICENSE for details.
 
 [Dmitry Ustalov]: http://eveel.ru
