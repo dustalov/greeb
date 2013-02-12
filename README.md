@@ -1,8 +1,8 @@
 Greeb
 =====
 
-Greeb is a simple yet awesome text tokenizer that is based on regular
-expressions.
+Greeb is a simple yet awesome and Unicode-aware text segmentator
+that is based on regular expressions.
 
 ## Installation
 
@@ -25,7 +25,7 @@ Or install it yourself as:
 Greeb can help you to solve simple text processing problems:
 
 ```ruby
-pp Greeb::Tokenizer.new('Hello!').tokens
+pp Greeb::Tokenizer.tokenize('Hello!')
 =begin
 [#<struct Greeb::Entity from=0, to=5, type=:letter>,
  #<struct Greeb::Entity from=5, to=6, type=:punct>]
@@ -41,7 +41,7 @@ Hello! I am 18! My favourite number is 133.7...
 What about you?
 EOF
 
-pp Greeb::Tokenizer.new(text).tokens
+pp Greeb::Tokenizer.tokenize(text)
 =begin
 [#<struct Greeb::Entity from=0, to=5, type=:letter>,
  #<struct Greeb::Entity from=5, to=6, type=:punct>,
@@ -79,8 +79,8 @@ such as sentence detection tasks:
 
 ```ruby
 text = 'Hello! How are you?'
-tokenizer = Greeb::Tokenizer.new(text)
-pp Greeb::Segmentator.new(tokenizer).sentences
+tokens = Greeb::Tokenizer.tokenize(text)
+pp Greeb::Segmentator.new(tokens).sentences
 =begin
 [#<struct Greeb::Entity from=0, to=6, type=:sentence>,
  #<struct Greeb::Entity from=7, to=19, type=:sentence>]
@@ -92,9 +92,9 @@ segmentator:
 
 ```ruby
 text = 'Hello! How are you?'
-tokenizer = Greeb::Tokenizer.new(text)
-sentences = Greeb::Segmentator.new(tokenizer).sentences
-pp segmentator.extract(*sentences)
+tokens = Greeb::Tokenizer.tokenize(text)
+segmentator = Greeb::Segmentator.new(tokens)
+pp segmentator.extract(segmentator.sentences)
 =begin
 {#<struct Greeb::Entity from=0, to=6, type=:sentence>=>
   [#<struct Greeb::Entity from=0, to=5, type=:letter>,
@@ -127,15 +127,12 @@ punctuation), and `:break`.
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
 
-I highly recommend you to use git flow to make development process much
-systematic and awesome.
-
 ## Build Status [<img src="https://secure.travis-ci.org/eveel/greeb.png"/>](http://travis-ci.org/eveel/greeb)
 
 ## Dependency Status [<img src="https://gemnasium.com/eveel/greeb.png?travis"/>](https://gemnasium.com/eveel/greeb)
 
 ## Copyright
 
-Copyright (c) 2010-2012 [Dmitry Ustalov]. See LICENSE for details.
+Copyright (c) 2010-2013 [Dmitry Ustalov]. See LICENSE for details.
 
 [Dmitry Ustalov]: http://eveel.ru
