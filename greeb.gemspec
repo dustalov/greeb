@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Dmitry Ustalov']
   s.email       = ['dmitry@eveel.ru']
-  s.homepage    = 'https://github.com/eveel/greeb'
+  s.homepage    = 'https://github.com/ustalov/greeb'
   s.summary     = 'Greeb is a simple Unicode-aware regexp-based tokenizer.'
   s.description = 'Greeb is a simple yet awesome and Unicode-aware ' \
                   'regexp-based tokenizer, written in Ruby.'
