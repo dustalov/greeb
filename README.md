@@ -127,9 +127,9 @@ punctuation), and `:break`.
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
 
-## Build Status [<img src="https://secure.travis-ci.org/eveel/greeb.png"/>](http://travis-ci.org/eveel/greeb)
+## Build Status [<img src="https://secure.travis-ci.org/ustalov/greeb.png"/>](http://travis-ci.org/ustalov/greeb)
 
-## Dependency Status [<img src="https://gemnasium.com/eveel/greeb.png?travis"/>](https://gemnasium.com/eveel/greeb)
+## Dependency Status [<img src="https://gemnasium.com/ustalov/greeb.png?travis"/>](https://gemnasium.com/ustalov/greeb)
 
 ## Copyright
 
