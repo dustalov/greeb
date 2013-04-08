@@ -129,7 +129,7 @@ punctuation), and `:break`.
 
 ## Build Status [<img src="https://secure.travis-ci.org/ustalov/greeb.png"/>](http://travis-ci.org/ustalov/greeb)
 
-## Dependency Status [<img src="https://gemnasium.com/ustalov/greeb.png?travis"/>](https://gemnasium.com/ustalov/greeb)
+## Dependency Status [<img src="https://gemnasium.com/ustalov/greeb.png"/>](https://gemnasium.com/ustalov/greeb)
 
 ## Copyright
 
