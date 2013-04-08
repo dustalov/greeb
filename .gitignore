@@ -24,6 +24,8 @@ nbproject
 
 ## RVM
 .rvmrc
+.ruby-version
+.ruby-gemset
 
 ## RUBINIUS
 .rbx
