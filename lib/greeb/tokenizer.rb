@@ -39,7 +39,7 @@ module Greeb::Tokenizer
 
   # Residuals.
   #
-  RESIDUALS = /[\p{C}\p{M}\p{Sk}]+/u
+  RESIDUALS = /([\p{C}\p{M}\p{Sk}]|[\p{Nd}&&[^\d]])+/u
 
   # Perform the tokenization process.
   #
