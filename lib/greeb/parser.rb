@@ -10,7 +10,7 @@ module Greeb::Parser
   # URL pattern. Not so precise, but IDN-compatible.
   URL = /\b(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\p{L}\w\d]+\)|([^.\s]|\/)))/ui
 
-  # E-mail pattern. 
+  # Horrible e-mail pattern. 
   EMAIL = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/ui
 
   # Recognize URLs in the input text. Actually, URL is obsolete standard
