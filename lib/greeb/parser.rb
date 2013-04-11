@@ -8,7 +8,7 @@ module Greeb::Parser
   extend self
 
   # URL pattern. Not so precise, but IDN-compatible.
-  URL = /\b(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\p{L}\w\d]+\)|([^.\s]|\/)))/
+  URL = /\b(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\p{L}\w\d]+\)|([^.\s]|\/)))/ui
 
   # E-mail pattern. 
   EMAIL = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/ui
