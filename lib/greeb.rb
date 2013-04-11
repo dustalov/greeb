@@ -43,3 +43,4 @@ end
 require 'greeb/strscan'
 require 'greeb/tokenizer'
 require 'greeb/segmentator'
+require 'greeb/parser'
