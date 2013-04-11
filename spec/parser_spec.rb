@@ -16,7 +16,7 @@ module Greeb
       it 'recognizes URLs' do
         subject.must_equal(
           [Entity.new(46, 61, :url),
-           Entity.new(129, 144, :url)]
+           Entity.new(130, 145, :url)]
         )
       end
     end

@@ -49,7 +49,7 @@ module Greeb::Parser
       while text and md = text.match(regexp)
         start, stop = md.offset(0)
         matches << Greeb::Entity.new(offset + start, offset + stop, type)
-        text, offset = text[stop + 1..-1], offset + stop
+        text, offset = text[stop..-1], offset + stop
       end
     end
   end
