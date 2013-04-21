@@ -16,11 +16,9 @@ class MiniTest::Unit::TestCase
   def invoke(*argv)
     return invoke_cache[argv] if invoke_cache.has_key? argv
 
-    args = argv.dup
-    options = (args.last.is_a? Hash) ? args.pop : {}
-
+    arguments = argv.dup
+    options = (arguments.last.is_a? Hash) ? arguments.pop : {}
     executable = File.expand_path('../../../bin/greeb', __FILE__)
-    arguments = args.map! { |s| (s.include? ' ') ? '"%s"' % s : s }.join ' '
 
     Open3.popen2e(executable, *arguments) do |i, o, _|
       i.puts options[:stdin] if options[:stdin]
