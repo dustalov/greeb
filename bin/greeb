@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.expand_path('../../lib', __FILE__)
-require 'rubygems'
+if File.exists? File.expand_path('../../.git', __FILE__)
+  $:.unshift File.expand_path('../../lib', __FILE__)
+end
+
 require 'greeb'
 
 text = STDIN.read
