@@ -1,11 +1,8 @@
-Greeb
-=====
-
-Greeb is a simple yet awesome and Unicode-aware text segmentator
+# Greeb
+Greeb [grʲip] is a simple yet awesome and Unicode-aware text segmentator
 that is based on regular expressions.
 
 ## Installation
-
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -21,8 +18,26 @@ Or install it yourself as:
     $ gem install greeb
 
 ## Usage
+Greeb can help you solve simple text processing problems such as
+tokenization and segmentation.
 
-Greeb can help you to solve simple text processing problems:
+It is available as a command line application that reads the input
+text from STDIN and prints one token per line into STDOUT.
+
+```
+echo 'Hello http://nlpub.ru guys, how are you?' | greeb
+Hello
+http://nlpub.ru
+guys
+,
+how
+are
+you
+?
+```
+
+### Tokenization API
+Greeb has a very convinient API that makes you happy.
 
 ```ruby
 pp Greeb::Tokenizer.tokenize('Hello!')
@@ -32,7 +47,7 @@ pp Greeb::Tokenizer.tokenize('Hello!')
 =end
 ```
 
-It should be noted that it is possible to process much complex texts:
+It should be noted that it is possible to process much complex texts.
 
 ```ruby
 text =<<-EOF
@@ -74,8 +89,9 @@ pp Greeb::Tokenizer.tokenize(text)
 =end
 ```
 
+### Segmentation API
 Also it can be used to solve the text segmentation problems
-such as sentence detection tasks:
+such as sentence detection tasks.
 
 ```ruby
 text = 'Hello! How are you?'
@@ -88,7 +104,7 @@ pp Greeb::Segmentator.new(tokens).sentences
 ```
 
 It is possible to extract tokens that were processed by the text
-segmentator:
+segmentator.
 
 ```ruby
 text = 'Hello! How are you?'
@@ -109,18 +125,36 @@ pp segmentator.extract(segmentator.sentences)
 =end
 ```
 
-## Tokens
+### Parsing API
+Texts are often include some special entities such as URLs and e-mail
+addresses. Greeb can help you in these strings retrieval.
 
+```ruby
+text = 'My website is http://nlpub.ru and e-mail is example@example.com.'
+
+pp Greeb::Parser.urls(text).map { |e| [e, text[e.from...e.to]] }
+=begin
+[[#<struct Greeb::Entity from=14, to=29, type=:url>, "http://nlpub.ru"]]
+=end
+
+pp Greeb::Parser.emails(text).map { |e| [e, text[e.from...e.to]] }
+=begin
+[[#<struct Greeb::Entity from=44, to=63, type=:email>, "example@example.com"]]
+=end
+```
+
+Please don't use Greeb in spam lists development purposes.
+
+## Tokens
 Greeb operates with entities, tuples of *(from, to, kind)*, where
 *from* is a beginning of the entity, *to* is an ending of the entity,
 and *kind* is a type of the entity.
 
-There are several entity types: `:letter`, `:float`, `:integer`,
-`:separ`, `:punct` (for punctuation), `:spunct` (for in-sentence
-punctuation), and `:break`.
+There are several entity types at the tokenization stage: `:letter`,
+`:float`, `:integer`, `:separ`, `:punct` (for punctuation), `:spunct`
+(for in-sentence punctuation), and `:break`.
 
 ## Contributing
-
 1. Fork it;
 2. Create your feature branch (`git checkout -b my-new-feature`);
 3. Commit your changes (`git commit -am 'Added some feature'`);
