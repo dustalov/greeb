@@ -25,7 +25,7 @@ It is available as a command line application that reads the input
 text from STDIN and prints one token per line into STDOUT.
 
 ```
-echo 'Hello http://nlpub.ru guys, how are you?' | greeb
+% echo 'Hello http://nlpub.ru guys, how are you?' | greeb
 Hello
 http://nlpub.ru
 guys
