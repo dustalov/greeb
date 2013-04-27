@@ -165,6 +165,8 @@ There are several entity types at the tokenization stage: `:letter`,
 
 ## Dependency Status [<img src="https://gemnasium.com/ustalov/greeb.png"/>](https://gemnasium.com/ustalov/greeb)
 
+## Code Climate [<img src="https://codeclimate.com/github/ustalov/greeb.png"/>](https://codeclimate.com/github/ustalov/greeb)
+
 ## Copyright
 
 Copyright (c) 2010-2013 [Dmitry Ustalov]. See LICENSE for details.
