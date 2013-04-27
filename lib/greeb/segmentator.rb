@@ -15,7 +15,7 @@ class Greeb::Segmentator
   #
   # @param tokens [Array<Greeb::Entity>] tokens from [Greeb::Tokenizer].
   #
-  def initialize tokens
+  def initialize(tokens)
     @tokens = tokens
   end
 
@@ -44,7 +44,7 @@ class Greeb::Segmentator
   # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
   #   sentences as keys and tokens arrays as values.
   #
-  def extract sentences
+  def extract(sentences)
     Hash[
       sentences.map do |s|
         [s, tokens.select { |t| t.from >= s.from and t.to <= s.to }]
@@ -59,7 +59,7 @@ class Greeb::Segmentator
   # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
   #   sentences as keys and subsentences arrays as values.
   #
-  def subextract sentences
+  def subextract(sentences)
     Hash[
       sentences.map do |s|
         [s, subsentences.select { |ss| ss.from >= s.from and ss.to <= s.to }]
@@ -88,8 +88,7 @@ class Greeb::Segmentator
       if :punct == token.type
         sentence.to = tokens.
           select { |t| t.from >= token.from }.
-          inject(token) { |r, t| break r if t.type != token.type; t }.
-          to
+          inject(token) { |r, t| break r if t.type != token.type; t }.to
 
         @sentences << sentence
         sentence = new_sentence
@@ -100,7 +99,7 @@ class Greeb::Segmentator
       sentence
     end
 
-    nil.tap { @sentences << rest if rest.from and rest.to }
+    nil.tap { @sentences << rest if rest.from && rest.to }
   end
 
   # Implementation of the subsentence detection method. This method
@@ -112,19 +111,18 @@ class Greeb::Segmentator
     @subsentences = SortedSet.new
 
     rest = tokens.inject(new_subsentence) do |subsentence, token|
-      if !subsentence.from and SENTENCE_DOESNT_START.include?(token.type)
+      if !subsentence.from && SENTENCE_DOESNT_START.include?(token.type)
         next subsentence
       end
 
       subsentence.from = token.from unless subsentence.from
 
-      next subsentence if subsentence.to and subsentence.to > token.to
+      next subsentence if subsentence.to && subsentence.to > token.to
 
       if [:punct, :spunct].include? token.type
         subsentence.to = tokens.
           select { |t| t.from >= token.from }.
-          inject(token) { |r, t| break r if t.type != token.type; t }.
-          to
+          inject(token) { |r, t| break r if t.type != token.type; t }.to
 
         @subsentences << subsentence
         subsentence = new_subsentence
@@ -135,7 +133,7 @@ class Greeb::Segmentator
       subsentence
     end
 
-    nil.tap { @subsentences << rest if rest.from and rest.to }
+    nil.tap { @subsentences << rest if rest.from && rest.to }
   end
 
   private

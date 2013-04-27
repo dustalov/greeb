@@ -1,13 +1,5 @@
 # encoding: utf-8
 
-require 'rubygems'
-
-$:.unshift File.expand_path('../../lib', __FILE__)
-
-if RUBY_VERSION == '1.8'
-  gem 'minitest'
-end
-
 require 'minitest/autorun'
 
 unless 'true' == ENV['TRAVIS']
@@ -17,6 +9,7 @@ unless 'true' == ENV['TRAVIS']
   end
 end
 
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'greeb'
 
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }
