@@ -1,6 +1,10 @@
 # encoding: utf-8
 
+require 'rubygems'
+
+gem 'minitest'
 require 'minitest/autorun'
+require 'minitest/hell'
 
 unless 'true' == ENV['TRAVIS']
   require 'simplecov'
