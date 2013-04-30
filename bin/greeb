@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if File.exists? File.expand_path('../../.git', __FILE__)
-  $:.unshift File.expand_path('../../lib', __FILE__)
+  $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 end
 
 require 'greeb'
