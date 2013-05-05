@@ -72,8 +72,9 @@ module Greeb
     describe 'sentence extractor' do
       let(:tokens) { Tokenizer.tokenize('Hello! I am JC Denton.') }
       let(:segmentator) { Segmentator.new(tokens) }
+      let(:sentences) { segmentator.sentences }
 
-      subject { segmentator.extract(segmentator.sentences) }
+      subject { segmentator.extract(sentences) }
 
       it 'should be extracted' do
         subject.must_equal(
@@ -98,8 +99,10 @@ module Greeb
     describe 'subsentence extractor' do
       let(:tokens) { Tokenizer.tokenize('Hello, I am JC Denton.') }
       let(:segmentator) { Segmentator.new(tokens) }
+      let(:sentences) { segmentator.sentences }
+      let(:subsentences) { segmentator.subsentences }
 
-      subject { segmentator.subextract(segmentator.sentences) }
+      subject { segmentator.extract(sentences, subsentences) }
 
       it 'should extract subsentences' do
         subject.must_equal(
