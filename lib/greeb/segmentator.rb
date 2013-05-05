@@ -7,7 +7,7 @@ class Greeb::Segmentator
   # Sentence does not start from the separator charater, line break
   # character, and punctuation characters.
   #
-  SENTENCE_DOESNT_START = [:separ, :break, :punct, :spunct]
+  SENTENCE_DOES_NOT_START = [:separ, :break, :punct, :spunct]
 
   attr_reader :tokens
 
@@ -64,18 +64,12 @@ class Greeb::Segmentator
     collection = []
 
     rest = tokens.inject(sample.dup) do |entity, token|
-      if !entity.from && SENTENCE_DOESNT_START.include?(token.type)
-        next entity
-      end
-
+      next entity if sentence_does_not_start? entity, token
       entity.from = token.from unless entity.from
-
-      next entity if entity.to && entity.to > token.to
+      next entity if entity.to and entity.to > token.to
 
       if stop_marks.include? token.type
-        entity.to = tokens.select { |t| t.from >= token.from }.
-          inject(token) { |r, t| break r if t.type != token.type; t }.to
-
+        entity.to = find_forward(tokens, token).to
         collection << entity
         entity = sample.dup
       elsif :separ != token.type
@@ -93,6 +87,30 @@ class Greeb::Segmentator
   end
 
   private
+  # Check the possibility of starting a new sentence by the specified
+  # pair of entity and token.
+  #
+  # @param entity [Greeb::Entity] an entity to be checked.
+  # @param token [Greeb::Entity] an token to be checked.
+  #
+  # @return true or false.
+  #
+  def sentence_does_not_start?(entity, token)
+    !entity.from and SENTENCE_DOES_NOT_START.include? token.type
+  end
+
+  # Find a forwarding token that has another type.
+  #
+  # @param collection [Array<Greeb::Entity>] array of possible tokens.
+  # @param sample [Greeb::Entity] a token that is treated as a sample.
+  #
+  # @return [Greeb::Entity] a forwarding token.
+  #
+  def find_forward(collection, sample)
+    collection.select { |t| t.from >= sample.from }.
+      inject(sample) { |r, t| t.type == sample.type ? t : (break r) }
+  end
+
   # Create a new instance of {Greeb::Entity} with `:sentence` type.
   #
   # @return [Greeb::Entity] a new entity instance.
