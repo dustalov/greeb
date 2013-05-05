@@ -53,6 +53,11 @@ class Greeb::Segmentator
   protected
   # Implementation of the entity detection method.
   #
+  # @param sample [Greeb::Entity] a sample of entity to be cloned in the
+  # process.
+  # @param stop_marks [Array<Symbol>] an array that stores the
+  # correspondent stop marks of the necessary entities.
+  #
   # @return [Array<Greeb::Entity>] a set of entites.
   #
   def detect_entities(sample, stop_marks)
