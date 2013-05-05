@@ -24,8 +24,7 @@ class Greeb::Segmentator
   # @return [Array<Greeb::Entity>] a set of sentences.
   #
   def sentences
-    detect_sentences! unless @sentences
-    @sentences
+    @sentences ||= detect_entities(new_sentence, [:punct])
   end
 
   # Subsentences memoization method.
@@ -33,8 +32,7 @@ class Greeb::Segmentator
   # @return [Array<Greeb::Entity>] a set of subsentences.
   #
   def subsentences
-    detect_subsentences! unless @subsentences
-    @subsentences
+    @subsentences ||= detect_entities(new_subsentence, [:punct, :spunct])
   end
 
   # Extract tokens from the set of sentences.
@@ -53,72 +51,40 @@ class Greeb::Segmentator
   end
 
   protected
-  # Implementation of the sentence detection method. This method
-  # changes the `@sentences` ivar.
+  # Implementation of the entity detection method.
   #
-  # @return [nil] nothing.
+  # @return [Array<Greeb::Entity>] a set of entites.
   #
-  def detect_sentences!
-    @sentences = []
+  def detect_entities(sample, stop_marks)
+    collection = []
 
-    rest = tokens.inject(new_sentence) do |sentence, token|
-      if !sentence.from and SENTENCE_DOESNT_START.include?(token.type)
-        next sentence
+    rest = tokens.inject(sample.dup) do |entity, token|
+      if !entity.from && SENTENCE_DOESNT_START.include?(token.type)
+        next entity
       end
 
-      sentence.from = token.from unless sentence.from
+      entity.from = token.from unless entity.from
 
-      next sentence if sentence.to and sentence.to > token.to
+      next entity if entity.to && entity.to > token.to
 
-      if :punct == token.type
-        sentence.to = tokens.
-          select { |t| t.from >= token.from }.
+      if stop_marks.include? token.type
+        entity.to = tokens.select { |t| t.from >= token.from }.
           inject(token) { |r, t| break r if t.type != token.type; t }.to
 
-        @sentences << sentence
-        sentence = new_sentence
+        collection << entity
+        entity = sample.dup
       elsif :separ != token.type
-        sentence.to = token.to
+        entity.to = token.to
       end
 
-      sentence
+      entity
     end
 
-    nil.tap { @sentences << rest if rest.from && rest.to }
-  end
-
-  # Implementation of the subsentence detection method. This method
-  # changes the `@subsentences` ivar.
-  #
-  # @return [nil] nothing.
-  #
-  def detect_subsentences!
-    @subsentences = SortedSet.new
-
-    rest = tokens.inject(new_subsentence) do |subsentence, token|
-      if !subsentence.from && SENTENCE_DOESNT_START.include?(token.type)
-        next subsentence
-      end
-
-      subsentence.from = token.from unless subsentence.from
-
-      next subsentence if subsentence.to && subsentence.to > token.to
-
-      if [:punct, :spunct].include? token.type
-        subsentence.to = tokens.
-          select { |t| t.from >= token.from }.
-          inject(token) { |r, t| break r if t.type != token.type; t }.to
-
-        @subsentences << subsentence
-        subsentence = new_subsentence
-      elsif :separ != token.type
-        subsentence.to = token.to
-      end
-
-      subsentence
+    if rest.from && rest.to
+      collection << rest
+    else
+      collection
     end
-
-    nil.tap { @subsentences << rest if rest.from && rest.to }
   end
 
   private
