@@ -110,9 +110,23 @@ module Greeb::Tokenizer
   def split_parse! scanner, tokens, pattern, type
     return false unless token = scanner.scan(pattern)
     position = scanner.char_pos - token.length
-    token.scan(/((.|\n)\2*)/).map(&:first).inject(position) do |before, s|
+    split(token).inject(position) do |before, s|
       tokens << Greeb::Entity.new(before, before + s.length, type)
       before + s.length
     end
+  end
+
+  # Split one line into characters array, but also combine line breaks
+  # into single elements.
+  #
+  # For instance, `"a b\n\n\nc"` would be transformed into the following
+  # array: `["a", " ", "b", "\n\n\n", "c"]`.
+  #
+  # @param token [String] a token to be splitted.
+  #
+  # @return [Array<String>] splitted characters.
+  #
+  def split(token)
+    token.scan(/((.|\n)\2*)/).map(&:first)
   end
 end
