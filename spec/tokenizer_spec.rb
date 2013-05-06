@@ -79,5 +79,20 @@ module Greeb
         )
       end
     end
+
+    describe '.split' do
+      it 'should split characters' do
+        Tokenizer.split('loh').must_equal %w(l o h)
+      end
+
+      it 'should combine duplicated characters' do
+        Tokenizer.split('foo').must_equal %w(f oo)
+      end
+
+      it 'should also deal with line breaks' do
+        Tokenizer.split("bar\n\nbaz").must_equal(
+          [*%w(b a r), "\n\n", *%w(b a z)])
+      end
+    end
   end
 end

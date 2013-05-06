@@ -57,6 +57,20 @@ module Greeb::Tokenizer
     scanner.terminate
   end
 
+  # Split one line into characters array, but also combine duplicated
+  # characters.
+  #
+  # For instance, `"a b\n\n\nc"` would be transformed into the following
+  # array: `["a", " ", "b", "\n\n\n", "c"]`.
+  #
+  # @param token [String] a token to be splitted.
+  #
+  # @return [Array<String>] splitted characters.
+  #
+  def split(token)
+    token.scan(/((.|\n)\2*)/).map(&:first)
+  end
+
   protected
   # One iteration of the tokenization process.
   #
@@ -114,19 +128,5 @@ module Greeb::Tokenizer
       tokens << Greeb::Entity.new(before, before + s.length, type)
       before + s.length
     end
-  end
-
-  # Split one line into characters array, but also combine line breaks
-  # into single elements.
-  #
-  # For instance, `"a b\n\n\nc"` would be transformed into the following
-  # array: `["a", " ", "b", "\n\n\n", "c"]`.
-  #
-  # @param token [String] a token to be splitted.
-  #
-  # @return [Array<String>] splitted characters.
-  #
-  def split(token)
-    token.scan(/((.|\n)\2*)/).map(&:first)
   end
 end
