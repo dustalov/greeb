@@ -129,6 +129,7 @@ pp segmentator.extract(segmentator.sentences)
 Texts are often include some special entities such as URLs and e-mail
 addresses. Greeb can help you in these strings retrieval.
 
+#### URL and E-mail retrieval
 ```ruby
 text = 'My website is http://nlpub.ru and e-mail is example@example.com.'
 
@@ -144,6 +145,19 @@ pp Greeb::Parser.emails(text).map { |e| [e, text[e.from...e.to]] }
 ```
 
 Please don't use Greeb in spam lists development purposes.
+
+#### Abbreviation retrieval
+```ruby
+text = 'Hello, G.L.H.F. everyone!'
+
+pp Greeb::Parser.abbrevs(text).map { |e| [e, text[e.from...e.to]] }
+=begin
+[[#<struct Greeb::Entity from=7, to=15, type=:abbrev>, "G.L.H.F."]]
+=end
+```
+
+The algorithm is not so accurate, but still useful in many practical
+situations.
 
 ## Tokens
 Greeb operates with entities, tuples of *(from, to, kind)*, where

@@ -7,7 +7,7 @@ module Greeb
     let(:text) do
       'Hello there! My name is Vasya B. My website is: http://вася.рф/. ' \
       'And my e-mail is example@example.com! Also it is available by ' \
-      'URL: http://vasya.ru. Also, G.L.H.F. to everybody!'
+      'URL: http://vasya.ru. Also, G.L.H.F. everyone!'
     end
 
     describe 'URL' do
