@@ -13,6 +13,9 @@ module Greeb::Parser
   # A horrible e-mail pattern.
   EMAIL = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
 
+  # Another horrible pattern. Now for abbreviations.
+  ABBREV = /\b(\p{L}\.)+/i
+
   # Recognize URLs in the input text. Actually, URL is obsolete standard
   # and this code should be rewritten to use the URI concept.
   #
@@ -32,6 +35,16 @@ module Greeb::Parser
   #
   def emails(text)
     scan(text, EMAIL, :email)
+  end
+
+  # Recognize abbreviations in the input text.
+  #
+  # @param text [String] input text.
+  #
+  # @return [Array<Greeb::Entity>] found abbreviations.
+  #
+  def abbrevs(text)
+    scan(text, ABBREV, :abbrev)
   end
 
   private
