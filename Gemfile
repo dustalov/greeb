@@ -4,6 +4,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-group :test do
+group :development do
   gem 'simplecov'
 end
