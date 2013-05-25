@@ -14,7 +14,7 @@ module Greeb::Parser
   EMAIL = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
 
   # Another horrible pattern. Now for abbreviations.
-  ABBREV = /\b((\p{L}\.)*|(\p{L}\. )*)\p{L}\./i
+  ABBREV = /\b((-{0,1}\p{L}\.)*|(-{0,1}\p{L}\. )*)-{0,1}\p{L}\./i
 
   # Recognize URLs in the input text. Actually, URL is obsolete standard
   # and this code should be rewritten to use the URI concept.
