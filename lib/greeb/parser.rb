@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# It is often necessary to find different entities in natural language
+# It is often necessary to find different entities in a natural language
 # text. These entities are URLs, e-mail addresses, names, etc. This module
 # includes several helpers that could help to solve these problems.
 #
