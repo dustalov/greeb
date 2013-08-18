@@ -6,21 +6,8 @@ end
 
 require 'greeb'
 
-text = STDIN.read
-text.chomp!
+text = STDIN.read.tap(&:chomp!)
 
-tokens = Greeb::Tokenizer.tokenize(text)
-
-extract = proc do |entity|
-  from = tokens.index { |e| e.from == entity.from }
-  to = tokens.index { |e| e.to == entity.to }
-  tokens[from..to] = entity
-end
-
-Greeb::Parser.urls(text).each(&extract)
-Greeb::Parser.emails(text).each(&extract)
-Greeb::Parser.abbrevs(text).each(&extract)
-
-tokens.each do |entity|
+Greeb[text].each do |entity|
   puts text[entity.from...entity.to] unless entity.type == :separ
 end
