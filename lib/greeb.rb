@@ -8,8 +8,8 @@ require 'greeb/version'
 #
 # There are several entity types: `:letter`, `:float`, `:integer`,
 # `:separ` for separators, `:punct` for punctuation characters,
-# `:spunct` for in-sentence punctuation characters, and
-# `:break` for line endings.
+# `:spunct` for in-sentence punctuation characters,
+# `:space` for spaces, and `:break` for line endings.
 #
 class Greeb::Entity < Struct.new(:from, :to, :type)
   # @private
