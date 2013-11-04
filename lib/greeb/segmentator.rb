@@ -5,9 +5,9 @@
 #
 class Greeb::Segmentator
   # Sentence does not start from the separator charater, line break
-  # character, and punctuation characters.
+  # character, punctuation characters, and spaces.
   #
-  SENTENCE_DOES_NOT_START = [:separ, :break, :punct, :spunct]
+  SENTENCE_AINT_START = [:separ, :break, :punct, :spunct, :space]
 
   attr_reader :tokens
 
@@ -64,7 +64,7 @@ class Greeb::Segmentator
     collection = []
 
     rest = tokens.inject(sample.dup) do |entity, token|
-      next entity if sentence_does_not_start? entity, token
+      next entity if sentence_aint_start? entity, token
       entity.from = token.from unless entity.from
       next entity if entity.to and entity.to > token.to
 
@@ -72,7 +72,7 @@ class Greeb::Segmentator
         entity.to = find_forward(tokens, token).to
         collection << entity
         entity = sample.dup
-      elsif :separ != token.type
+      elsif ![:separ, :space].include? token.type
         entity.to = token.to
       end
 
@@ -95,8 +95,8 @@ class Greeb::Segmentator
   #
   # @return true or false.
   #
-  def sentence_does_not_start?(entity, token)
-    !entity.from and SENTENCE_DOES_NOT_START.include? token.type
+  def sentence_aint_start?(entity, token)
+    !entity.from and SENTENCE_AINT_START.include? token.type
   end
 
   # Find a forwarding token that has another type.

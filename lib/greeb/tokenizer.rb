@@ -31,7 +31,11 @@ module Greeb::Tokenizer
 
   # In-subsentence seprator (i.e.: "*" or "=").
   #
-  SEPARATORS = /[ \p{Nl}\p{No}\p{Pd}\p{Pc}\p{Po}\p{Sm}\p{So}\p{Sc}\p{Z}]+/u
+  SEPARATORS = /[\p{Nl}\p{No}\p{Pd}\p{Pc}\p{Po}\p{Sm}\p{So}\p{Sc}\p{Zl}\p{Zp}]+/u
+
+  # Spaces (i.e.: " " or &nbsp).
+  #
+  SPACES = /[\p{Zs}]+/u
 
   # Line breaks.
   #
@@ -86,6 +90,7 @@ module Greeb::Tokenizer
     split_parse! scanner, tokens, SENTENCE_PUNCTUATIONS, :spunct or
     split_parse! scanner, tokens, PUNCTUATIONS, :punct or
     split_parse! scanner, tokens, SEPARATORS, :separ or
+    split_parse! scanner, tokens, SPACES, :space or
     split_parse! scanner, tokens, BREAKS, :break or
     parse! scanner, tokens, RESIDUALS, :residual
   end

@@ -35,11 +35,11 @@ module Greeb
         Tokenizer.tokenize('Hello, I am 18').must_equal(
           [Entity.new(0,  5,  :letter),
            Entity.new(5,  6,  :spunct),
-           Entity.new(6,  7,  :separ),
+           Entity.new(6,  7,  :space),
            Entity.new(7,  8,  :letter),
-           Entity.new(8,  9,  :separ),
+           Entity.new(8,  9,  :space),
            Entity.new(9,  11, :letter),
-           Entity.new(11, 12, :separ),
+           Entity.new(11, 12, :space),
            Entity.new(12, 14, :integer)]
         )
       end
@@ -67,13 +67,13 @@ module Greeb
         Tokenizer.tokenize('Братишка, я тебе покушать принёс!').must_equal(
           [Entity.new(0,  8,  :letter),
            Entity.new(8,  9,  :spunct),
-           Entity.new(9,  10, :separ),
+           Entity.new(9,  10, :space),
            Entity.new(10, 11, :letter),
-           Entity.new(11, 12, :separ),
+           Entity.new(11, 12, :space),
            Entity.new(12, 16, :letter),
-           Entity.new(16, 17, :separ),
+           Entity.new(16, 17, :space),
            Entity.new(17, 25, :letter),
-           Entity.new(25, 26, :separ),
+           Entity.new(25, 26, :space),
            Entity.new(26, 32, :letter),
            Entity.new(32, 33, :punct)]
         )

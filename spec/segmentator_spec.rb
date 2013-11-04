@@ -84,11 +84,11 @@ module Greeb
           ],
           Entity.new(7, 22, :sentence) => [
             Entity.new(7,  8,  :letter),
-            Entity.new(8,  9,  :separ),
+            Entity.new(8,  9,  :space),
             Entity.new(9,  11, :letter),
-            Entity.new(11, 12, :separ),
+            Entity.new(11, 12, :space),
             Entity.new(12, 14, :letter),
-            Entity.new(14, 15, :separ),
+            Entity.new(14, 15, :space),
             Entity.new(15, 21, :letter),
             Entity.new(21, 22, :punct)
           ]
