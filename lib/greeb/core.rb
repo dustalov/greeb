@@ -13,11 +13,11 @@ module Greeb::Core
   #
   # @param text [String] input text.
   #
-  # @return [Array<Greeb::Entity>] a set of tokens.
+  # @return [Array<Greeb::Span>] a set of tokens.
   #
-  def analyze text
+  def analyze(text, helpers = HELPERS)
     Greeb::Tokenizer.tokenize(text).tap do |tokens|
-      HELPERS.each do |helper|
+      helpers.each do |helper|
         Greeb::Parser.public_send(helper, text).each do |parsed|
           extract_tokens(tokens, parsed)
         end
@@ -30,10 +30,10 @@ module Greeb::Core
   protected
   # Extact tokens of the specified type from the input tokens set.
   #
-  # @param tokens [Array<Greeb::Entity>] input tokens set.
-  # @param entity [Greeb::Entity] token to be extracted.
+  # @param tokens [Array<Greeb::Span>] input tokens set.
+  # @param entity [Greeb::Span] token to be extracted.
   #
-  # @return [Greeb::Entity] token to be extracted.
+  # @return [Greeb::Span] token to be extracted.
   #
   def extract_tokens(tokens, entity)
     from = tokens.index { |e| e.from == entity.from }

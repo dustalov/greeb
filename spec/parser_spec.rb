@@ -16,8 +16,8 @@ module Greeb
 
       it 'recognizes URLs' do
         subject.must_equal(
-          [Entity.new(92, 107, :url),
-           Entity.new(171, 186, :url)]
+          [Span.new(92, 107, :url),
+           Span.new(171, 186, :url)]
         )
       end
     end
@@ -27,7 +27,7 @@ module Greeb
 
       it 'recognizes e-mails' do
         subject.must_equal(
-          [Entity.new(126, 145, :email)]
+          [Span.new(126, 145, :email)]
         )
       end
     end
@@ -37,9 +37,9 @@ module Greeb
 
       it 'recognizes abbreviations' do
         subject.must_equal(
-          [Entity.new(49, 51, :abbrev),
-           Entity.new(68, 77, :abbrev),
-           Entity.new(197, 205, :abbrev)]
+          [Span.new(49, 51, :abbrev),
+           Span.new(68, 77, :abbrev),
+           Span.new(197, 205, :abbrev)]
         )
       end
     end
@@ -49,10 +49,10 @@ module Greeb
 
       it 'recognizes HTML entities' do
         subject.must_equal(
-          [Entity.new(24, 43, :html),
-           Entity.new(51, 58, :html),
-           Entity.new(194, 197, :html),
-           Entity.new(205, 209, :html)]
+          [Span.new(24, 43, :html),
+           Span.new(51, 58, :html),
+           Span.new(194, 197, :html),
+           Span.new(205, 209, :html)]
         )
       end
     end

@@ -24,7 +24,7 @@ module Greeb::Parser
   #
   # @param text [String] input text.
   #
-  # @return [Array<Greeb::Entity>] found URLs.
+  # @return [Array<Greeb::Span>] found URLs.
   #
   def urls(text)
     scan(text, URL, :url)
@@ -34,7 +34,7 @@ module Greeb::Parser
   #
   # @param text [String] input text.
   #
-  # @return [Array<Greeb::Entity>] found e-mail addresses.
+  # @return [Array<Greeb::Span>] found e-mail addresses.
   #
   def emails(text)
     scan(text, EMAIL, :email)
@@ -44,7 +44,7 @@ module Greeb::Parser
   #
   # @param text [String] input text.
   #
-  # @return [Array<Greeb::Entity>] found abbreviations.
+  # @return [Array<Greeb::Span>] found abbreviations.
   #
   def abbrevs(text)
     scan(text, ABBREV, :abbrev)
@@ -54,27 +54,27 @@ module Greeb::Parser
   #
   # @param text [String] input text.
   #
-  # @return [Array<Greeb::Entity>] found HTML entities.
+  # @return [Array<Greeb::Span>] found HTML entities.
   #
   def html(text)
     scan(text, HTML, :html)
   end
 
   private
-  # Implementation of regexp-based {Greeb::Entity} scanner.
+  # Implementation of regexp-based {Greeb::Span} scanner.
   #
   # @param text [String] input text.
   # @param regexp [Regexp] regular expression to be used.
-  # @param type [Symbol] type field for the new {Greeb::Entity} instances.
+  # @param type [Symbol] type field for the new {Greeb::Span} instances.
   # @param offset [Fixnum] offset of the next match.
   #
-  # @return [Array<Greeb::Entity>] found entities.
+  # @return [Array<Greeb::Span>] found entities.
   #
   def scan(text, regexp, type, offset = 0)
     Array.new.tap do |matches|
       while text and md = text.match(regexp)
         start, stop = md.offset(0)
-        matches << Greeb::Entity.new(offset + start, offset + stop, type)
+        matches << Greeb::Span.new(offset + start, offset + stop, type)
         text, offset = text[stop..-1], offset + stop
       end
     end

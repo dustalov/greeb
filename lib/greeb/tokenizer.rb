@@ -47,14 +47,14 @@ module Greeb::Tokenizer
 
   # Perform the tokenization process.
   #
-  # @return [Array<Greeb::Entity>] a set of tokens.
+  # @return [Array<Greeb::Span>] a set of tokens.
   #
   def tokenize text
     scanner = Greeb::StringScanner.new(text)
     tokens = []
     while !scanner.eos?
       step scanner, tokens or
-      raise Greeb::UnknownEntity.new(text, scanner.char_pos)
+      raise Greeb::UnknownSpan.new(text, scanner.char_pos)
     end
     tokens
   ensure
@@ -79,9 +79,9 @@ module Greeb::Tokenizer
   # One iteration of the tokenization process.
   #
   # @param scanner [Greeb::StringScanner] string scanner.
-  # @param tokens [Array<Greeb::Entity>] result array.
+  # @param tokens [Array<Greeb::Span>] result array.
   #
-  # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
+  # @return [Array<Greeb::Span>] the modified set of extracted tokens.
   #
   def step scanner, tokens
     parse! scanner, tokens, LETTERS, :letter or
@@ -99,17 +99,17 @@ module Greeb::Tokenizer
   # of necessary type.
   #
   # @param scanner [Greeb::StringScanner] string scanner.
-  # @param tokens [Array<Greeb::Entity>] result array.
+  # @param tokens [Array<Greeb::Span>] result array.
   # @param pattern [Regexp] a regular expression to extract the token.
   # @param type [Symbol] a symbol that represents the necessary token
   #   type.
   #
-  # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
+  # @return [Array<Greeb::Span>] the modified set of extracted tokens.
   #
   def parse! scanner, tokens, pattern, type
     return false unless token = scanner.scan(pattern)
     position = scanner.char_pos
-    tokens << Greeb::Entity.new(position - token.length,
+    tokens << Greeb::Span.new(position - token.length,
                                 position,
                                 type)
   end
@@ -119,18 +119,18 @@ module Greeb::Tokenizer
   # characters.
   #
   # @param scanner [Greeb::StringScanner] string scanner.
-  # @param tokens [Array<Greeb::Entity>] result array.
+  # @param tokens [Array<Greeb::Span>] result array.
   # @param pattern [Regexp] a regular expression to extract the token.
   # @param type [Symbol] a symbol that represents the necessary token
   #   type.
   #
-  # @return [Array<Greeb::Entity>] the modified set of extracted tokens.
+  # @return [Array<Greeb::Span>] the modified set of extracted tokens.
   #
   def split_parse! scanner, tokens, pattern, type
     return false unless token = scanner.scan(pattern)
     position = scanner.char_pos - token.length
     split(token).inject(position) do |before, s|
-      tokens << Greeb::Entity.new(before, before + s.length, type)
+      tokens << Greeb::Span.new(before, before + s.length, type)
       before + s.length
     end
   end

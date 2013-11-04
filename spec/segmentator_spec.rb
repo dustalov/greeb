@@ -24,7 +24,7 @@ module Greeb
       subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal([Entity.new(0, 22, :sentence)])
+        subject.must_equal([Span.new(0, 22, :sentence)])
       end
     end
 
@@ -34,7 +34,7 @@ module Greeb
       subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal([Entity.new(0, 21, :sentence)])
+        subject.must_equal([Span.new(0, 21, :sentence)])
       end
     end
 
@@ -44,7 +44,7 @@ module Greeb
       subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal([Entity.new(6, 27, :sentence)])
+        subject.must_equal([Span.new(6, 27, :sentence)])
       end
     end
 
@@ -54,8 +54,8 @@ module Greeb
       subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal([Entity.new(0, 6,  :sentence),
-                            Entity.new(7, 22, :sentence)])
+        subject.must_equal([Span.new(0, 6,  :sentence),
+                            Span.new(7, 22, :sentence)])
       end
     end
 
@@ -65,7 +65,7 @@ module Greeb
       subject { Segmentator.new(tokens).sentences }
 
       it 'should be segmented' do
-        subject.must_equal([Entity.new(2, 17, :sentence)])
+        subject.must_equal([Span.new(2, 17, :sentence)])
       end
     end
 
@@ -78,19 +78,19 @@ module Greeb
 
       it 'should be extracted' do
         subject.must_equal(
-          Entity.new(0,  6, :sentence) => [
-            Entity.new(0, 5, :letter),
-            Entity.new(5, 6, :punct)
+          Span.new(0,  6, :sentence) => [
+            Span.new(0, 5, :letter),
+            Span.new(5, 6, :punct)
           ],
-          Entity.new(7, 22, :sentence) => [
-            Entity.new(7,  8,  :letter),
-            Entity.new(8,  9,  :space),
-            Entity.new(9,  11, :letter),
-            Entity.new(11, 12, :space),
-            Entity.new(12, 14, :letter),
-            Entity.new(14, 15, :space),
-            Entity.new(15, 21, :letter),
-            Entity.new(21, 22, :punct)
+          Span.new(7, 22, :sentence) => [
+            Span.new(7,  8,  :letter),
+            Span.new(8,  9,  :space),
+            Span.new(9,  11, :letter),
+            Span.new(11, 12, :space),
+            Span.new(12, 14, :letter),
+            Span.new(14, 15, :space),
+            Span.new(15, 21, :letter),
+            Span.new(21, 22, :punct)
           ]
         )
       end
@@ -106,9 +106,9 @@ module Greeb
 
       it 'should extract subsentences' do
         subject.must_equal(
-          Entity.new(0,  22, :sentence) => [
-            Entity.new(0, 6, :subsentence),
-            Entity.new(7, 22, :subsentence)
+          Span.new(0,  22, :sentence) => [
+            Span.new(0, 6, :subsentence),
+            Span.new(7, 22, :subsentence)
           ]
         )
       end

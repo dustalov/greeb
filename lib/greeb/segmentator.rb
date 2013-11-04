@@ -13,7 +13,7 @@ class Greeb::Segmentator
 
   # Create a new instance of {Greeb::Segmentator}.
   #
-  # @param tokens [Array<Greeb::Entity>] tokens from [Greeb::Tokenizer].
+  # @param tokens [Array<Greeb::Span>] tokens from [Greeb::Tokenizer].
   #
   def initialize(tokens)
     @tokens = tokens
@@ -21,7 +21,7 @@ class Greeb::Segmentator
 
   # Sentences memoization method.
   #
-  # @return [Array<Greeb::Entity>] a set of sentences.
+  # @return [Array<Greeb::Span>] a set of sentences.
   #
   def sentences
     @sentences ||= detect_entities(new_sentence, [:punct])
@@ -29,7 +29,7 @@ class Greeb::Segmentator
 
   # Subsentences memoization method.
   #
-  # @return [Array<Greeb::Entity>] a set of subsentences.
+  # @return [Array<Greeb::Span>] a set of subsentences.
   #
   def subsentences
     @subsentences ||= detect_entities(new_subsentence, [:punct, :spunct])
@@ -37,9 +37,9 @@ class Greeb::Segmentator
 
   # Extract tokens from the set of sentences.
   #
-  # @param sentences [Array<Greeb::Entity>] a list of sentences.
+  # @param sentences [Array<Greeb::Span>] a list of sentences.
   #
-  # @return [Hash<Greeb::Entity, Array<Greeb::Entity>>] a hash with
+  # @return [Hash<Greeb::Span, Array<Greeb::Span>>] a hash with
   #   sentences as keys and tokens arrays as values.
   #
   def extract(sentences, collection = tokens)
@@ -53,12 +53,12 @@ class Greeb::Segmentator
   protected
   # Implementation of the entity detection method.
   #
-  # @param sample [Greeb::Entity] a sample of entity to be cloned in the
+  # @param sample [Greeb::Span] a sample of entity to be cloned in the
   # process.
   # @param stop_marks [Array<Symbol>] an array that stores the
   # correspondent stop marks of the necessary entities.
   #
-  # @return [Array<Greeb::Entity>] a set of entites.
+  # @return [Array<Greeb::Span>] a set of entites.
   #
   def detect_entities(sample, stop_marks)
     collection = []
@@ -90,8 +90,8 @@ class Greeb::Segmentator
   # Check the possibility of starting a new sentence by the specified
   # pair of entity and token.
   #
-  # @param entity [Greeb::Entity] an entity to be checked.
-  # @param token [Greeb::Entity] an token to be checked.
+  # @param entity [Greeb::Span] an entity to be checked.
+  # @param token [Greeb::Span] an token to be checked.
   #
   # @return true or false.
   #
@@ -101,29 +101,29 @@ class Greeb::Segmentator
 
   # Find a forwarding token that has another type.
   #
-  # @param collection [Array<Greeb::Entity>] array of possible tokens.
-  # @param sample [Greeb::Entity] a token that is treated as a sample.
+  # @param collection [Array<Greeb::Span>] array of possible tokens.
+  # @param sample [Greeb::Span] a token that is treated as a sample.
   #
-  # @return [Greeb::Entity] a forwarding token.
+  # @return [Greeb::Span] a forwarding token.
   #
   def find_forward(collection, sample)
     collection.select { |t| t.from >= sample.from }.
       inject(sample) { |r, t| t.type == sample.type ? t : (break r) }
   end
 
-  # Create a new instance of {Greeb::Entity} with `:sentence` type.
+  # Create a new instance of {Greeb::Span} with `:sentence` type.
   #
-  # @return [Greeb::Entity] a new entity instance.
+  # @return [Greeb::Span] a new entity instance.
   #
   def new_sentence
-    Greeb::Entity.new(nil, nil, :sentence)
+    Greeb::Span.new(nil, nil, :sentence)
   end
 
-  # Create a new instance of {Greeb::Entity} with `:subsentence` type.
+  # Create a new instance of {Greeb::Span} with `:subsentence` type.
   #
-  # @return [Greeb::Entity] a new entity instance.
+  # @return [Greeb::Span] a new entity instance.
   #
   def new_subsentence
-    Greeb::Entity.new(nil, nil, :subsentence)
+    Greeb::Span.new(nil, nil, :subsentence)
   end
 end
