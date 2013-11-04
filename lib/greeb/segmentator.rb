@@ -39,15 +39,13 @@ class Greeb::Segmentator
   #
   # @param sentences [Array<Greeb::Span>] a list of sentences.
   #
-  # @return [Hash<Greeb::Span, Array<Greeb::Span>>] a hash with
+  # @return [Array<Greeb::Span, Array<Greeb::Span>>] a hash with
   #   sentences as keys and tokens arrays as values.
   #
   def extract(sentences, collection = tokens)
-    Hash[
-      sentences.map do |s|
-        [s, collection.select { |t| t.from >= s.from and t.to <= s.to }]
-      end
-    ]
+    sentences.map do |s|
+      [s, collection.select { |t| t.from >= s.from and t.to <= s.to }]
+    end
   end
 
   protected

@@ -76,12 +76,12 @@ describe Segmentator do
     subject { segmentator.extract(sentences) }
 
     it 'should be extracted' do
-      subject.must_equal(
-        Span.new(0,  6, :sentence) => [
+      subject.must_equal([
+        [Span.new(0,  6, :sentence), [
           Span.new(0, 5, :letter),
           Span.new(5, 6, :punct)
-        ],
-        Span.new(7, 22, :sentence) => [
+        ]],
+        [Span.new(7, 22, :sentence), [
           Span.new(7,  8,  :letter),
           Span.new(8,  9,  :space),
           Span.new(9,  11, :letter),
@@ -90,8 +90,8 @@ describe Segmentator do
           Span.new(14, 15, :space),
           Span.new(15, 21, :letter),
           Span.new(21, 22, :punct)
-        ]
-      )
+        ]]
+      ])
     end
   end
 
@@ -104,12 +104,12 @@ describe Segmentator do
     subject { segmentator.extract(sentences, subsentences) }
 
     it 'should extract subsentences' do
-      subject.must_equal(
-        Span.new(0,  22, :sentence) => [
+      subject.must_equal([
+        [Span.new(0,  22, :sentence), [
           Span.new(0, 6, :subsentence),
           Span.new(7, 22, :subsentence)
-        ]
-      )
+        ]]
+      ])
     end
   end
 end
