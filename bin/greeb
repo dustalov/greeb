@@ -9,5 +9,5 @@ require 'greeb'
 text = STDIN.read.tap(&:chomp!)
 
 Greeb[text].each do |entity|
-  puts text[entity.from...entity.to] unless entity.type == :separ
+  puts text[entity.from...entity.to] unless [:space, :break].include? entity.type
 end
