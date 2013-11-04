@@ -19,7 +19,7 @@ module Greeb::Core
     Greeb::Tokenizer.tokenize(text).tap do |tokens|
       helpers.each do |helper|
         Greeb::Parser.public_send(helper, text).each do |parsed|
-          extract_tokens(tokens, parsed)
+          extract_spans(tokens, parsed)
         end
       end
     end
@@ -28,17 +28,18 @@ module Greeb::Core
   alias_method :'[]', :analyze
 
   protected
-  # Extact tokens of the specified type from the input tokens set.
+  # Extact spans of the specified type from the input spans set.
   #
-  # @param tokens [Array<Greeb::Span>] input tokens set.
-  # @param entity [Greeb::Span] token to be extracted.
+  # @param spans [Array<Greeb::Span>] input spans set.
+  # @param span [Greeb::Span] span to be extracted.
   #
-  # @return [Greeb::Span] token to be extracted.
+  # @return [Greeb::Span] span to be extracted.
   #
-  def extract_tokens(tokens, entity)
-    from = tokens.index { |e| e.from == entity.from }
-    to = tokens.index { |e| e.to == entity.to }
-    tokens[from..to] = entity
+  def extract_spans(spans, span)
+    from = spans.index { |e| e.from == span.from }
+    to = spans.index { |e| e.to == span.to }
+    return unless from && to
+    spans[from..to] = span
   end
 end
 
