@@ -8,6 +8,6 @@ require 'greeb'
 
 text = STDIN.read.tap(&:chomp!)
 
-Greeb[text].each do |entity|
-  puts text[entity.from...entity.to] unless [:space, :break].include? entity.type
+Greeb[text].each do |span|
+  puts text[span.from...span.to] unless [:space, :break].include? span.type
 end
