@@ -167,7 +167,7 @@ and *kind* is a type of the entity.
 
 There are several entity types at the tokenization stage: `:letter`,
 `:float`, `:integer`, `:separ`, `:punct` (for punctuation), `:spunct`
-(for in-sentence punctuation), and `:break`.
+(for in-sentence punctuation), `:space`, and `:break`.
 
 ## Contributing
 1. Fork it;
