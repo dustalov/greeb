@@ -176,11 +176,11 @@ There are several entity types at the tokenization stage: `:letter`,
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
 
-## Build Status [<img src="https://secure.travis-ci.org/ustalov/greeb.png"/>](http://travis-ci.org/ustalov/greeb)
+## Build Status [<img src="https://secure.travis-ci.org/dmchk/greeb.png"/>](http://travis-ci.org/dmchk/greeb)
 
-## Dependency Status [<img src="https://gemnasium.com/ustalov/greeb.png"/>](https://gemnasium.com/ustalov/greeb)
+## Dependency Status [<img src="https://gemnasium.com/dmchk/greeb.png"/>](https://gemnasium.com/dmchk/greeb)
 
-## Code Climate [<img src="https://codeclimate.com/github/ustalov/greeb.png"/>](https://codeclimate.com/github/ustalov/greeb)
+## Code Climate [<img src="https://codeclimate.com/github/dmchk/greeb.png"/>](https://codeclimate.com/github/dmchk/greeb)
 
 ## Copyright
 
