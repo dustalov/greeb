@@ -35,7 +35,7 @@ module Greeb::Tokenizer
 
   # Spaces (i.e.: " " or &nbsp).
   #
-  SPACES = /[\p{Zs}]+/u
+  SPACES = /[\p{Zs}\t]+/u
 
   # Line breaks.
   #
