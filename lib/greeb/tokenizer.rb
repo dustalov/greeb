@@ -68,7 +68,7 @@ module Greeb::Tokenizer
   # @return [Array<String>] splitted characters.
   #
   def split(token)
-    token.scan(/((.|\n)\2*)/).map(&:first)
+    token.scan(/((.|\n)\2*)/).map!(&:first)
   end
 
   protected
