@@ -5,9 +5,10 @@ require_relative 'spec_helper'
 module Greeb
   describe Parser do
     let(:text) do
-      'Hello there! My name is Vasya B. and I am к.ф.-м.н. My website is ' \
-      'http://вася.рф/. And my e-mail is example@example.com! Also it is ' \
-      'available by URL: http://vasya.ru. Also, G.L.H.F. everyone!'
+      ('Hello there! My name is <span class="name">Vasya B.</span> and ' \
+       'I am к.ф.-м.н. My website is http://вася.рф/. And my e-mail is ' \
+       'example@example.com! It is available by URL: http://vasya.ru. '  \
+       'Also, <b>G.L.H.F.</b> everyone!').freeze
     end
 
     describe 'URL' do
@@ -15,8 +16,8 @@ module Greeb
 
       it 'recognizes URLs' do
         subject.must_equal(
-          [Entity.new(66, 81, :url),
-           Entity.new(150, 165, :url)]
+          [Entity.new(92, 107, :url),
+           Entity.new(171, 186, :url)]
         )
       end
     end
@@ -26,7 +27,7 @@ module Greeb
 
       it 'recognizes e-mails' do
         subject.must_equal(
-          [Entity.new(100, 119, :email)]
+          [Entity.new(126, 145, :email)]
         )
       end
     end
@@ -36,9 +37,22 @@ module Greeb
 
       it 'recognizes abbreviations' do
         subject.must_equal(
-          [Entity.new(30, 32, :abbrev),
-           Entity.new(42, 51, :abbrev),
-           Entity.new(173, 181, :abbrev)]
+          [Entity.new(49, 51, :abbrev),
+           Entity.new(68, 77, :abbrev),
+           Entity.new(197, 205, :abbrev)]
+        )
+      end
+    end
+
+    describe 'HTML' do
+      subject { Parser.html(text) }
+
+      it 'recognizes HTML entities' do
+        subject.must_equal(
+          [Entity.new(24, 43, :html),
+           Entity.new(51, 58, :html),
+           Entity.new(194, 197, :html),
+           Entity.new(205, 209, :html)]
         )
       end
     end

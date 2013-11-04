@@ -16,6 +16,9 @@ module Greeb::Parser
   # Another horrible pattern. Now for abbreviations.
   ABBREV = /\b((-{0,1}\p{L}\.)*|(-{0,1}\p{L}\. )*)-{0,1}\p{L}\./i
 
+  # This pattern matches anything that looks like HTML. Or not.
+  HTML = /<(.*?)>/i
+
   # Recognize URLs in the input text. Actually, URL is obsolete standard
   # and this code should be rewritten to use the URI concept.
   #
@@ -45,6 +48,16 @@ module Greeb::Parser
   #
   def abbrevs(text)
     scan(text, ABBREV, :abbrev)
+  end
+
+  # Recognize HTML-alike entities in the input text.
+  #
+  # @param text [String] input text.
+  #
+  # @return [Array<Greeb::Entity>] found HTML entities.
+  #
+  def html(text)
+    scan(text, HTML, :html)
   end
 
   private
