@@ -24,7 +24,7 @@ class Greeb::Segmentator
   # @return [Array<Greeb::Span>] a set of sentences.
   #
   def sentences
-    @sentences ||= detect_entities(new_sentence, [:punct])
+    @sentences ||= detect_spans(new_sentence, [:punct])
   end
 
   # Subsentences memoization method.
@@ -32,7 +32,7 @@ class Greeb::Segmentator
   # @return [Array<Greeb::Span>] a set of subsentences.
   #
   def subsentences
-    @subsentences ||= detect_entities(new_subsentence, [:punct, :spunct])
+    @subsentences ||= detect_spans(new_subsentence, [:punct, :spunct])
   end
 
   # Extract tokens from the set of sentences.
@@ -51,32 +51,32 @@ class Greeb::Segmentator
   end
 
   protected
-  # Implementation of the entity detection method.
+  # Implementation of the span detection method.
   #
-  # @param sample [Greeb::Span] a sample of entity to be cloned in the
+  # @param sample [Greeb::Span] a sample of span to be cloned in the
   # process.
   # @param stop_marks [Array<Symbol>] an array that stores the
-  # correspondent stop marks of the necessary entities.
+  # correspondent stop marks of the necessary spans.
   #
   # @return [Array<Greeb::Span>] a set of entites.
   #
-  def detect_entities(sample, stop_marks)
+  def detect_spans(sample, stop_marks)
     collection = []
 
-    rest = tokens.inject(sample.dup) do |entity, token|
-      next entity if sentence_aint_start? entity, token
-      entity.from = token.from unless entity.from
-      next entity if entity.to and entity.to > token.to
+    rest = tokens.inject(sample.dup) do |span, token|
+      next span if sentence_aint_start? span, token
+      span.from = token.from unless span.from
+      next span if span.to and span.to > token.to
 
       if stop_marks.include? token.type
-        entity.to = find_forward(tokens, token).to
-        collection << entity
-        entity = sample.dup
+        span.to = find_forward(tokens, token).to
+        collection << span
+        span = sample.dup
       elsif ![:separ, :space].include? token.type
-        entity.to = token.to
+        span.to = token.to
       end
 
-      entity
+      span
     end
 
     if rest.from && rest.to
@@ -88,15 +88,15 @@ class Greeb::Segmentator
 
   private
   # Check the possibility of starting a new sentence by the specified
-  # pair of entity and token.
+  # pair of span and token.
   #
-  # @param entity [Greeb::Span] an entity to be checked.
+  # @param span [Greeb::Span] an span to be checked.
   # @param token [Greeb::Span] an token to be checked.
   #
   # @return true or false.
   #
-  def sentence_aint_start?(entity, token)
-    !entity.from and SENTENCE_AINT_START.include? token.type
+  def sentence_aint_start?(span, token)
+    !span.from and SENTENCE_AINT_START.include? token.type
   end
 
   # Find a forwarding token that has another type.
@@ -113,7 +113,7 @@ class Greeb::Segmentator
 
   # Create a new instance of {Greeb::Span} with `:sentence` type.
   #
-  # @return [Greeb::Span] a new entity instance.
+  # @return [Greeb::Span] a new span instance.
   #
   def new_sentence
     Greeb::Span.new(nil, nil, :sentence)
@@ -121,7 +121,7 @@ class Greeb::Segmentator
 
   # Create a new instance of {Greeb::Span} with `:subsentence` type.
   #
-  # @return [Greeb::Span] a new entity instance.
+  # @return [Greeb::Span] a new span instance.
   #
   def new_subsentence
     Greeb::Span.new(nil, nil, :subsentence)
