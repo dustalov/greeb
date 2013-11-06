@@ -19,7 +19,7 @@ module Greeb::Parser
   # This pattern matches anything that looks like HTML. Or not.
   HTML = /<(.*?)>/i
 
-  # Apostrophes pattern.
+  # Time pattern.
   TIME = /\b(\d|[0-2]\d):[0-6]\d(:[0-6]\d){0,1}\b/i
 
   # Recognize URLs in the input text. Actually, URL is obsolete standard
