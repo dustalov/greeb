@@ -160,7 +160,17 @@ pp Greeb::Parser.abbrevs(text).map { |e| [e, text[e.from...e.to]] }
 The algorithm is not so accurate, but still useful in many practical
 situations.
 
-## Tokens
+#### Timestamps retrieval
+```ruby
+text = 'Our time is running out: 13:37 or 14:89.'
+
+pp Greeb::Parser.time(text).map { |e| [e, text[e.from...e.to]] }
+=begin
+[[#<struct Greeb::Span from=25, to=30, type=:time>, "13:37"]]
+=end
+```
+
+## Spans
 Greeb operates with spans, tuples of *(from, to, kind)*, where
 *from* is a beginning of the span, *to* is an ending of the span,
 and *kind* is a type of the span.
