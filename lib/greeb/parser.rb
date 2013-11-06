@@ -19,6 +19,9 @@ module Greeb::Parser
   # This pattern matches anything that looks like HTML. Or not.
   HTML = /<(.*?)>/i
 
+  # Apostrophes pattern.
+  TIME = /\b(\d|[0-2]\d):[0-6]\d(:[0-6]\d){0,1}\b/i
+
   # Recognize URLs in the input text. Actually, URL is obsolete standard
   # and this code should be rewritten to use the URI concept.
   #
@@ -58,6 +61,16 @@ module Greeb::Parser
   #
   def html(text)
     scan(text, HTML, :html)
+  end
+
+  # Recognize timestamps in the input text.
+  #
+  # @param text [String] input text.
+  #
+  # @return [Array<Greeb::Span>] found HTML entities.
+  #
+  def time(text)
+    scan(text, TIME, :time)
   end
 
   private
