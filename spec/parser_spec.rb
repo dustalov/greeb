@@ -11,6 +11,8 @@ describe Parser do
      'now, not 14:89.').freeze
   end
 
+  let(:spans) { Tokenizer.tokenize(text) }
+
   describe 'URL' do
     subject { Parser.urls(text) }
 
@@ -64,6 +66,16 @@ describe Parser do
       subject.must_equal(
         [Span.new(225, 230, :time),
          Span.new(234, 242, :time)]
+      )
+    end
+  end
+
+  describe 'APOSTROPHE' do
+    subject { Parser.apostrophes(text, spans) }
+
+    it 'recognizes apostrophes' do
+      subject.must_equal(
+        [Span.new(220, 224, :letter)]
       )
     end
   end
