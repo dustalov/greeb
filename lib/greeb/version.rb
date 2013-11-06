@@ -5,5 +5,5 @@
 module Greeb
   # Version of Greeb.
   #
-  VERSION = '0.2.2.rc2'
+  VERSION = '0.2.2'
 end
