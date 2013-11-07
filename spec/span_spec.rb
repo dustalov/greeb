@@ -62,12 +62,12 @@ describe Span do
   end
 
   describe 'slicing' do
-    let(:text) { 'test123' }
+    let(:text) { 'test228' }
 
     subject { Span.new(4, 7) }
 
     it 'should extract slices using #slice' do
-      subject.slice(text).must_equal '123'
+      subject.slice(text).must_equal '228'
     end
   end
 end
