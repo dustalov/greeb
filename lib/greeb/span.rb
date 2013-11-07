@@ -19,6 +19,16 @@ class Greeb::Span < Struct.new(:from, :to, :type)
     Struct.new(*self.members, *members)
   end
 
+  # Select the slice of the given text using coorinates of this span.
+  #
+  # @param text [String] a text to be extracted.
+  #
+  # @return [String] the retrieved substring.
+  #
+  def slice(text)
+    text[from...to]
+  end
+
   # @private
   def <=> other
     if (comparison = self.from <=> other.from) == 0

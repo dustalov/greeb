@@ -60,4 +60,14 @@ describe Span do
       Span.new(1, 2, 3).wont_equal Span.new(1, 2, 4)
     end
   end
+
+  describe 'slicing' do
+    let(:text) { 'test123' }
+
+    subject { Span.new(4, 7) }
+
+    it 'should extract slices using #slice' do
+      subject.slice(text).must_equal '123'
+    end
+  end
 end
