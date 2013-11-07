@@ -134,12 +134,12 @@ addresses. Greeb can help you in these strings retrieval.
 ```ruby
 text = 'My website is http://nlpub.ru and e-mail is example@example.com.'
 
-pp Greeb::Parser.urls(text).map { |e| [e, text[e.from...e.to]] }
+pp Greeb::Parser.urls(text).map { |e| [e, e.slice(text)] }
 =begin
 [[#<struct Greeb::Span from=14, to=29, type=:url>, "http://nlpub.ru"]]
 =end
 
-pp Greeb::Parser.emails(text).map { |e| [e, text[e.from...e.to]] }
+pp Greeb::Parser.emails(text).map { |e| [e, e.slice(text)] }
 =begin
 [[#<struct Greeb::Span from=44, to=63, type=:email>, "example@example.com"]]
 =end
@@ -151,7 +151,7 @@ Please don't use Greeb in spam lists development purposes.
 ```ruby
 text = 'Hello, G.L.H.F. everyone!'
 
-pp Greeb::Parser.abbrevs(text).map { |e| [e, text[e.from...e.to]] }
+pp Greeb::Parser.abbrevs(text).map { |e| [e, e.slice(text)] }
 =begin
 [[#<struct Greeb::Span from=7, to=15, type=:abbrev>, "G.L.H.F."]]
 =end
@@ -164,7 +164,7 @@ situations.
 ```ruby
 text = 'Our time is running out: 13:37 or 14:89.'
 
-pp Greeb::Parser.time(text).map { |e| [e, text[e.from...e.to]] }
+pp Greeb::Parser.time(text).map { |e| [e, e.slice(text)] }
 =begin
 [[#<struct Greeb::Span from=25, to=30, type=:time>, "13:37"]]
 =end
