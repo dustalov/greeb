@@ -25,6 +25,9 @@ module Greeb::Parser
   # Apostrophe pattern.
   APOSTROPHE = /['’]/i
 
+  # Together pattern.
+  TOGETHER = [:letter, :integer, :apostrophe, :together]
+
   # Recognize URLs in the input text. Actually, URL is obsolete standard
   # and this code should be rewritten to use the URI concept.
   #
@@ -99,6 +102,28 @@ module Greeb::Parser
     end
 
     apostrophes
+  end
+
+  # Merge some spans that are together.
+  #
+  # @param spans [Array<Greeb::Span>] already tokenized text.
+  #
+  # @return [Array<Greeb::Span>] merged spans.
+  #
+  def together(spans)
+    loop do
+      converged = true
+
+      spans.each_with_index.each_cons(2).reverse_each do |(s1, i), (s2, j)|
+        next unless TOGETHER.include?(s1.type) && TOGETHER.include?(s2.type)
+        spans[i..j] = Greeb::Span.new(s1.from, s2.to, :together)
+        converged = false
+      end
+
+      break if converged
+    end
+
+    spans
   end
 
   private
