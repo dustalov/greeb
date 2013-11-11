@@ -27,7 +27,6 @@ module Greeb::Core
 
   alias_method :'[]', :analyze
 
-  protected
   # Extact spans of the specified type from the input spans set.
   #
   # @param spans [Array<Greeb::Span>] input spans set.

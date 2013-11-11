@@ -90,7 +90,7 @@ module Greeb::Parser
     apostrophes = scan(text, APOSTROPHE, :apostrophe)
     return [] if apostrophes.empty?
 
-    apostrophes.each { |s| extract_spans(spans, s) }.clear
+    apostrophes.each { |s| Greeb.extract_spans(spans, s) }.clear
 
     spans.each_with_index.each_cons(3).reverse_each do |(s1, i), (s2, j), (s3, k)|
       next unless s1 && s1.type == :letter
@@ -127,13 +127,6 @@ module Greeb::Parser
   end
 
   private
-  def extract_spans(spans, span)
-    from = spans.index { |e| e.from == span.from }
-    to = spans.index { |e| e.to == span.to }
-    return unless from && to
-    spans[from..to] = span
-  end
-
   # Implementation of regexp-based {Greeb::Span} scanner.
   #
   # @param text [String] input text.
