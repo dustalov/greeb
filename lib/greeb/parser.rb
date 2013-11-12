@@ -8,24 +8,31 @@ module Greeb::Parser
   extend self
 
   # An URL pattern. Not so precise, but IDN-compatible.
+  #
   URL = %r{\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\p{L}\w\d]+\)|([^.\s]|/)))}i
 
   # A horrible e-mail pattern.
+  #
   EMAIL = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
 
   # Another horrible pattern. Now for abbreviations.
+  #
   ABBREV = /\b((-{0,1}\p{L}\.)*|(-{0,1}\p{L}\. )*)-{0,1}\p{L}\./i
 
   # This pattern matches anything that looks like HTML. Or not.
+  #
   HTML = /<(.*?)>/i
 
   # Time pattern.
+  #
   TIME = /\b(\d|[0-2]\d):[0-6]\d(:[0-6]\d){0,1}\b/i
 
   # Apostrophe pattern.
+  #
   APOSTROPHE = /['’]/i
 
   # Together pattern.
+  #
   TOGETHER = [:letter, :integer, :apostrophe, :together]
 
   # Recognize URLs in the input text. Actually, URL is obsolete standard
