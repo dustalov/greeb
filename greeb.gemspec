@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary     = 'Greeb is a simple Unicode-aware regexp-based tokenizer.'
   spec.description = 'Greeb is a simple yet awesome and Unicode-aware ' \
                      'regexp-based tokenizer, written in Ruby.'
+  spec.license     = 'MIT'
 
   spec.rubyforge_project = 'greeb'
 
