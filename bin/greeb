@@ -1,13 +1,45 @@
 #!/usr/bin/env ruby
 
+require 'ostruct'
+require 'optparse'
+
 if File.exists? File.expand_path('../../.git', __FILE__)
   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 end
 
 require 'greeb'
 
-text = STDIN.read.tap(&:chomp!)
+options = OpenStruct.new(input: STDIN, output: STDOUT)
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: %s [options] command' % $PROGRAM_NAME
+
+  opts.on '-i', '--input [file]', 'Input file' do |input|
+    options.input = File.open(input)
+    at_exit { options.input.close }
+  end
+
+  opts.on '-o', '--output [file]', 'Output file' do |output|
+    options.output = File.open(output)
+    at_exit { options.output.close }
+  end
+
+  opts.on_tail '-h', '--help', 'Just display this help' do
+    puts opts
+    exit
+  end
+
+  opts.on_tail '-v', '--version', 'Just print the version infomation' do
+    puts 'Greeb %s' % Greeb::VERSION
+    exit
+  end
+end
+
+optparse.parse!
+
+text = options.input.read.tap(&:chomp!)
 
 Greeb[text].each do |span|
-  puts text[span.from...span.to] unless [:space, :break].include? span.type
+  next if [:space, :break].include? span.type
+  options.output.puts text[span.from...span.to]
 end
