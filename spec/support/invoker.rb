@@ -19,11 +19,15 @@ class MiniTest::Test
     arguments = argv.dup
     options = (arguments.last.is_a? Hash) ? arguments.pop : {}
     executable = File.expand_path('../../../bin/greeb', __FILE__)
+    status = nil
 
-    Open3.popen3(executable, *arguments) do |i, o, *_|
+    Open3.popen3(executable, *arguments) do |i, o, _, t|
       i.puts options[:stdin] if options[:stdin]
       i.close
       invoke_cache[argv] = o.readlines.map(&:chomp!)
+      status = t.value
     end
+
+    invoke_cache[argv] if status.success?
   end
 end

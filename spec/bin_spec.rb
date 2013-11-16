@@ -21,4 +21,12 @@ describe 'CLI' do
     invoke(stdin: 'Hello example@example.com guys!').must_equal(
       %w(Hello example@example.com guys !))
   end
+
+  it 'should print version' do
+    invoke('-v').join.must_match(/\AGreeb (\d\.)+\d\z/)
+  end
+
+  it 'should print help' do
+    invoke('-h').join.must_match(/Usage/)
+  end
 end
