@@ -55,12 +55,12 @@ class Greeb::Segmentator
   # process.
   # @param stop_marks [Array<Symbol>] an array that stores the
   # correspondent stop marks of the necessary spans.
+  # @param collection [Array<Greeb::Span>] an initial set of spans
+  # to be populated.
   #
-  # @return [Array<Greeb::Span>] a set of entites.
+  # @return [Array<Greeb::Span>] a modified collection.
   #
-  def detect_spans(sample, stop_marks)
-    collection = []
-
+  def detect_spans(sample, stop_marks, collection = [])
     rest = tokens.inject(sample.dup) do |span, token|
       next span if sentence_aint_start? span, token
       span.from = token.from unless span.from
