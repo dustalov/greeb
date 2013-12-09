@@ -77,11 +77,7 @@ class Greeb::Segmentator
       span
     end
 
-    if rest.from && rest.to
-      collection << rest
-    else
-      collection
-    end
+    rest.from && rest.to ? collection << rest : collection
   end
 
   private
