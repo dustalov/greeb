@@ -47,6 +47,8 @@ module Greeb::Tokenizer
 
   # Perform the tokenization process.
   #
+  # @param text [String] a text to be tokenized.
+  #
   # @return [Array<Greeb::Span>] a set of tokens.
   #
   def tokenize text
