@@ -11,7 +11,8 @@ module Greeb::Core
 
   # Recognize e-mail addresses in the input text.
   #
-  # @param text [String] input text.
+  # @param text [String] an input text.
+  # @param helpers [Array<Symbol>] a set of helper identifiers.
   #
   # @return [Array<Greeb::Span>] a set of tokens.
   #
