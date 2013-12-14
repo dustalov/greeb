@@ -86,7 +86,8 @@ module Greeb::Parser
     scan(text, TIME, :time)
   end
 
-  # Retrieve apostrophes from the tokenized text.
+  # Retrieve apostrophes from the tokenized text. The algorithm may be
+  # more optimal.
   #
   # @param text [String] input text.
   # @param spans [Array<Greeb::Span>] already tokenized text.
