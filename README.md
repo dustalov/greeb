@@ -1,7 +1,7 @@
 # Greeb
 Greeb [grʲip] is a simple yet awesome and Unicode-aware text segmentator
-that is based on regular expressions. API documentation is available at
-<http://rubydoc.info/github/dmchk/greeb/master/frames>.
+that is based on regular expressions. The API documentation is available
+at <http://rubydoc.info/github/dmchk/greeb/master/frames>.
 
 ## Installation
 Add this line to your application's Gemfile:
