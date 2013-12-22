@@ -196,4 +196,4 @@ There are several span types at the tokenization stage: `:letter`,
 
 Copyright (c) 2010-2013 [Dmitry Ustalov]. See LICENSE for details.
 
-[Dmitry Ustalov]: http://eveel.ru
+[Dmitry Ustalov]: http://ustalov.name/
