@@ -192,6 +192,8 @@ There are several span types at the tokenization stage: `:letter`,
 
 ## Code Climate [<img src="https://codeclimate.com/github/dmchk/greeb.png"/>](https://codeclimate.com/github/dmchk/greeb)
 
+## DOI [<img src="https://zenodo.org/badge/doi/10.5281/zenodo.10119.png"/>](http://dx.doi.org/10.5281/zenodo.10119)
+
 ## Copyright
 
 Copyright (c) 2010-2014 [Dmitry Ustalov]. See LICENSE for details.
