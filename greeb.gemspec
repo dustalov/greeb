@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
                      'regexp-based tokenizer, written in Ruby.'
   spec.license     = 'MIT'
 
+  spec.required_ruby_version = '>= 1.9.1'
   spec.rubyforge_project = 'greeb'
 
   spec.files         = `git ls-files`.split("\n")
