@@ -103,8 +103,7 @@ pp Greeb::Tokenizer.tokenize(text)
 
 ### Segmentation API
 
-The analyzer can also be used to perform text segmentation
-into sentences, i.e. for sentence detection.
+The analyzer can also perform sentence detection.
 
 ```ruby
 text = 'Hello! How are you?'
