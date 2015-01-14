@@ -48,7 +48,7 @@ you
 
 ### Tokenization API
 
-Greeb has a very convinient API that makes you happy.
+Greeb has a very convenient API that makes you happy.
 
 ```ruby
 pp Greeb::Tokenizer.tokenize('Hello!')
