@@ -1,10 +1,14 @@
 # Greeb
+
 Greeb [grʲip] is a simple yet awesome and Unicode-aware text segmentator
 that is based on regular expressions. The API documentation is available
-at <http://rubydoc.info/github/dmchk/greeb/master/frames>. The software
-demonstration is available on <http://greeb.herokuapp.com>.
+at [RubyDoc.info]. The software demonstration is available on
+<https://greeb.herokuapp.com>.
+
+[RubyDoc.info]: http://www.rubydoc.info/github/dustalov/greeb/master
 
 ## Installation
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -20,11 +24,15 @@ Or install it yourself as:
     $ gem install greeb
 
 ## Usage
-Greeb can help you solve simple text processing problems such as
-tokenization and segmentation.
 
-It is available as a command line application that reads the input
-text from STDIN and prints one token per line into STDOUT.
+Greeb can approach such essential text processing problems as
+tokenization and segmentation. There are two ways to use it:
+1) as a command-line application, 2) as a Ruby library.
+
+### Command-Line Interface
+
+The `greeb` application reads the input text from `STDIN` and
+writes one token per line to `STDOUT`.
 
 ```
 % echo 'Hello http://nlpub.ru guys, how are you?' | greeb
@@ -39,6 +47,7 @@ you
 ```
 
 ### Tokenization API
+
 Greeb has a very convinient API that makes you happy.
 
 ```ruby
@@ -49,7 +58,8 @@ pp Greeb::Tokenizer.tokenize('Hello!')
 =end
 ```
 
-It should be noted that it is possible to process much complex texts.
+It should be noted that it is also possible to process much
+complex texts than the present one.
 
 ```ruby
 text =<<-EOF
@@ -92,8 +102,9 @@ pp Greeb::Tokenizer.tokenize(text)
 ```
 
 ### Segmentation API
-Also it can be used to solve the text segmentation problems
-such as sentence detection tasks.
+
+The analyzer can also be used to perform text segmentation
+into sentences, i.e. for sentence detection.
 
 ```ruby
 text = 'Hello! How are you?'
@@ -105,8 +116,8 @@ pp Greeb::Segmentator.new(tokens).sentences
 =end
 ```
 
-It is possible to extract tokens that were processed by the text
-segmentator.
+Having obtained the sentence boundaries, it is possible to
+extract tokens covered by these sentences.
 
 ```ruby
 text = 'Hello! How are you?'
@@ -128,10 +139,12 @@ pp segmentator.extract(segmentator.sentences)
 ```
 
 ### Parsing API
-Texts are often include some special spans such as URLs and e-mail
-addresses. Greeb can help you in these strings retrieval.
 
-#### URL and E-mail retrieval
+It is often that a text includes such special entries as URLs
+and e-mail addresses. Greeb can assist you in extracting them.
+
+#### Extraction of URLs and e-mails
+
 ```ruby
 text = 'My website is http://nlpub.ru and e-mail is example@example.com.'
 
@@ -146,9 +159,10 @@ pp Greeb::Parser.emails(text).map { |e| [e, e.slice(text)] }
 =end
 ```
 
-Please don't use Greeb in spam lists development purposes.
+Please do not use Greeb for the development of spam lists. Spam sucks.
 
-#### Abbreviation retrieval
+#### Extraction of abbreviations
+
 ```ruby
 text = 'Hello, G.L.H.F. everyone!'
 
@@ -161,7 +175,8 @@ pp Greeb::Parser.abbrevs(text).map { |e| [e, e.slice(text)] }
 The algorithm is not so accurate, but still useful in many practical
 situations.
 
-#### Timestamps retrieval
+#### Extraction of time stamps
+
 ```ruby
 text = 'Our time is running out: 13:37 or 14:89.'
 
@@ -172,7 +187,8 @@ pp Greeb::Parser.time(text).map { |e| [e, e.slice(text)] }
 ```
 
 ## Spans
-Greeb operates with spans, tuples of *(from, to, kind)*, where
+
+Greeb operates with spans, which are tuples of *(from, to, kind)*, where
 *from* is a beginning of the span, *to* is an ending of the span,
 and *kind* is a type of the span.
 
@@ -181,22 +197,23 @@ There are several span types at the tokenization stage: `:letter`,
 (for in-sentence punctuation), `:space`, and `:break`.
 
 ## Contributing
+
 1. Fork it;
 2. Create your feature branch (`git checkout -b my-new-feature`);
 3. Commit your changes (`git commit -am 'Added some feature'`);
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
 
-## Build Status [<img src="https://secure.travis-ci.org/dmchk/greeb.png"/>](http://travis-ci.org/dmchk/greeb)
+## Build Status [<img src="https://secure.travis-ci.org/dustalov/greeb.png"/>](http://travis-ci.org/dustalov/greeb)
 
 ## Dependency Status [<img src="https://gemnasium.com/dmchk/greeb.png"/>](https://gemnasium.com/dmchk/greeb)
 
-## Code Climate [<img src="https://codeclimate.com/github/dmchk/greeb.png"/>](https://codeclimate.com/github/dmchk/greeb)
+## Code Climate [<img src="https://codeclimate.com/github/dustalov/greeb.png"/>](https://codeclimate.com/github/dustalov/greeb)
 
 ## DOI [<img src="https://zenodo.org/badge/doi/10.5281/zenodo.10119.png"/>](http://dx.doi.org/10.5281/zenodo.10119)
 
 ## Copyright
 
-Copyright (c) 2010-2014 [Dmitry Ustalov]. See LICENSE for details.
+Copyright (c) 2010-2015 [Dmitry Ustalov]. See LICENSE for details.
 
-[Dmitry Ustalov]: http://ustalov.name/
+[Dmitry Ustalov]: https://ustalov.name/
