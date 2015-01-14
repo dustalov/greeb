@@ -1,8 +1,9 @@
+sudo: false
 language: ruby
 rvm:
-  - 2.0.0
+  - ruby
+  - rbx
   - jruby-19mode
-  - rbx-19mode
 matrix:
   allow_failures:
-    - rvm: rbx-19mode
+    - rvm: rbx
