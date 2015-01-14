@@ -5,10 +5,7 @@
 # Unicode character categories been obtained from
 # <http://www.fileformat.info/info/unicode/category/index.htm>.
 #
-module Greeb::Tokenizer
-  # http://www.youtube.com/watch?v=eF1lU-CrQfc
-  extend self
-
+module Greeb::Tokenizer extend self
   # English and Russian letters.
   #
   LETTERS = /[\p{L}]+/u

@@ -4,9 +4,7 @@
 # text. These entities are URLs, e-mail addresses, names, etc. This module
 # includes several helpers that could help to solve these problems.
 #
-module Greeb::Parser
-  extend self
-
+module Greeb::Parser extend self
   # An URL pattern. Not so precise, but IDN-compatible.
   #
   URL = %r{\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\p{L}\w\d]+\)|([^.\s]|/)))}i
