@@ -5,7 +5,18 @@ based on regular expressions. The API documentation is available on
 [RubyDoc.info]. The software demonstration is available on
 <https://greeb.herokuapp.com>.
 
+[![Gem Version][badge_fury_badge]][badge_fury_link] [![Dependency Status][gemnasium_badge]][gemnasium_link] [![Build Status][travis_ci_badge]][travis_ci_link] [![Code Climate][code_climate_badge]][code_climage_link]
+
 [RubyDoc.info]: http://www.rubydoc.info/github/dustalov/greeb/master
+
+[badge_fury_badge]: https://badge.fury.io/rb/greeb.svg
+[badge_fury_link]: https://badge.fury.io/rb/greeb
+[gemnasium_badge]: https://gemnasium.com/dustalov/greeb.svg
+[gemnasium_link]: https://gemnasium.com/dustalov/greeb
+[travis_ci_badge]: https://travis-ci.org/dustalov/greeb.svg
+[travis_ci_link]: https://travis-ci.org/dustalov/greeb
+[code_climate_badge]: https://codeclimate.com/github/dustalov/greeb/badges/gpa.svg
+[code_climage_link]: https://codeclimate.com/github/dustalov/greeb
 
 ## Installation
 
@@ -202,12 +213,6 @@ There are several span types at the tokenization stage: `:letter`,
 3. Commit your changes (`git commit -am 'Added some feature'`);
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
-
-## Build Status [<img src="https://secure.travis-ci.org/dustalov/greeb.png"/>](http://travis-ci.org/dustalov/greeb)
-
-## Dependency Status [<img src="https://gemnasium.com/dmchk/greeb.png"/>](https://gemnasium.com/dmchk/greeb)
-
-## Code Climate [<img src="https://codeclimate.com/github/dmchk/greeb.png"/>](https://codeclimate.com/github/dmchk/greeb)
 
 ## DOI [<img src="https://zenodo.org/badge/doi/10.5281/zenodo.10119.png"/>](http://dx.doi.org/10.5281/zenodo.10119)
 
