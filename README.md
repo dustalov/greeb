@@ -1,18 +1,14 @@
 # Greeb
 
-Greeb [grʲip] is a simple yet awesome and Unicode-aware text segmentator
-based on regular expressions. The API documentation is available on
-[RubyDoc.info]. The software demonstration is available on
-<https://greeb.herokuapp.com>.
+Greeb [grʲip] is a simple Unicode-aware text segmentator based on regular
+expressions. The API documentation is available on [RubyDoc.info].
 
-[![Gem Version][badge_fury_badge]][badge_fury_link] [![Dependency Status][gemnasium_badge]][gemnasium_link] [![Build Status][travis_ci_badge]][travis_ci_link] [![Code Climate][code_climate_badge]][code_climage_link]
+[![Gem Version][badge_fury_badge]][badge_fury_link] [![Build Status][travis_ci_badge]][travis_ci_link] [![Code Climate][code_climate_badge]][code_climage_link]
 
-[RubyDoc.info]: http://www.rubydoc.info/github/dustalov/greeb/master
+[RubyDoc.info]: https://www.rubydoc.info/github/dustalov/greeb
 
 [badge_fury_badge]: https://badge.fury.io/rb/greeb.svg
 [badge_fury_link]: https://badge.fury.io/rb/greeb
-[gemnasium_badge]: https://gemnasium.com/dustalov/greeb.svg
-[gemnasium_link]: https://gemnasium.com/dustalov/greeb
 [travis_ci_badge]: https://travis-ci.org/dustalov/greeb.svg
 [travis_ci_link]: https://travis-ci.org/dustalov/greeb
 [code_climate_badge]: https://codeclimate.com/github/dustalov/greeb/badges/gpa.svg
@@ -38,7 +34,7 @@ Or install it yourself as:
 
 Greeb can approach such essential text processing problems as
 tokenization and segmentation. There are two ways to use it:
-1) as a command-line application, 2) as a Ruby library.
+(1) as a command-line application, (2) as a Ruby library.
 
 ### Command-Line Interface
 
@@ -214,10 +210,6 @@ There are several span types at the tokenization stage: `:letter`,
 4. Push to the branch (`git push origin my-new-feature`);
 5. Create new Pull Request.
 
-## DOI [<img src="https://zenodo.org/badge/doi/10.5281/zenodo.10119.png"/>](http://dx.doi.org/10.5281/zenodo.10119)
-
 ## Copyright
 
-Copyright (c) 2010-2015 [Dmitry Ustalov]. See LICENSE for details.
-
-[Dmitry Ustalov]: https://ustalov.name/
+Copyright (c) 2010-2019 Dmitry Ustalov. See LICENSE for details.

@@ -24,7 +24,7 @@ module Greeb::Tokenizer extend self
 
   # Punctuation character (i.e.: "." or "!").
   #
-  PUNCTUATIONS = /[(\.|\!|\?)]+/u
+  PUNCTUATIONS = /(\.|\!|\?)+/u
 
   # In-subsentence seprator (i.e.: "*" or "=").
   #

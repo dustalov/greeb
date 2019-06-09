@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version     = Greeb::VERSION
   spec.platform    = Gem::Platform::RUBY
   spec.authors     = ['Dmitry Ustalov']
-  spec.email       = ['dmitry@eveel.ru']
+  spec.email       = ['dmitry.ustalov@gmail.com']
   spec.homepage    = 'https://github.com/dustalov/greeb'
   spec.summary     = 'Greeb is a simple Unicode-aware regexp-based tokenizer.'
   spec.description = 'Greeb is a simple yet awesome and Unicode-aware ' \
